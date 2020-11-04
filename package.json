@@ -1,0 +1,38 @@
+{
+  "name": "sunny",
+  "version": "2.0.0",
+  "description": "Source code for custom discord.js bot Sunny.",
+  "main": "build/index.js",
+  "dependencies": {
+    "@google-cloud/dialogflow": "^3.3.0",
+    "dateformat": "^3.0.3",
+    "discord.js": "^12.4.1",
+    "drbracewell-random-tools": "^1.2.2",
+    "emoji-name-map": "^1.2.9",
+    "emoji-random": "^0.1.2",
+    "node-fetch": "^2.6.1",
+    "node-schedule": "^1.3.2",
+    "random-words": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.6",
+    "@types/node-schedule": "^1.3.1",
+    "eslint": "^7.9.0",
+    "typescript": "^4.0.5"
+  },
+  "scripts": {
+    "deploy": "npm run push && npm run pull-to-live",
+    "pull-to-live": "pull.bat",
+    "push": "git add . && git commit && git push"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DoctorBracewell/sunny.git"
+  },
+  "author": "DrBracewell",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DoctorBracewell/sunny/issues"
+  },
+  "homepage": "https://github.com/DoctorBracewell/sunny#readme"
+}

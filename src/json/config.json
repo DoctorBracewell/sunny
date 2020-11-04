@@ -1,0 +1,61 @@
+{
+    "prefix": "$",
+    "servers": {
+        "mansion": {
+            "id": "612778224887267342",
+            "channels": {
+                "bot": "635114930978422794",
+                "rules": "612813188077191199",
+                "greeting": "709757993067085906"
+            }
+        },
+        "programming": {
+            "id": "737069553619828778",
+            "channels": {
+                "bot": "737337344578945064"
+            }
+        }
+    },
+    "hugs": [
+        "(づ￣ ³￣)づ",
+        "⊂(´･◡･⊂ )",
+        "（っ♡∀♡）っ",
+        "⊂(◉‿◉)つ",
+        "(ﾉ◕ヮ◕)ﾉ*.✧",
+        "⊂((・▽・))⊃",
+        "⊂( ◜◒◝ )⊃",
+        "ლ(・ヮ・ლ)",
+        "(っಠ‿ಠ)っ",
+        "(.づσ▿σ)づ.",
+        "⊂(◉‿◉)つ",
+        "⊂(・ヮ・⊂)",
+        "（っ・∀・）っ",
+        "⊂(´・ω・｀⊂)",
+        "c⌒っ╹v╹ )っ"
+    ],
+    "colours": [
+        "RED",
+        "ORANGE",
+        "YELLOW",
+        "GREEN",
+        "BLUE",
+        "PURPLE",
+        "TEAL",
+        "PINK",
+        "TURQUOISE",
+        "BLACK",
+        "LIGHT GREEN",
+        "MAROON",
+        "GOLD",
+        "GREY",
+        "WHITE",
+        "LIGHT BLUE"
+    ],
+    "pronouns": [
+        "HE/HIM",
+        "SHE/HER",
+        "THEY/THEM",
+        "SIE/HIR",
+        "ALL PRONOUNS"
+    ]
+}
