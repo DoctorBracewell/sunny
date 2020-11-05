@@ -36,7 +36,6 @@ module.exports = {
         }
       
           list[list.length - 1] += `= ${element.description}`;
-          console.log(list)
         });
 
       finishedString = list.join("\n");

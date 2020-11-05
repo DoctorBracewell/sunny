@@ -19,15 +19,17 @@ module.exports = (client: Client, message: Message) => {
             let number = randomBetween(3, 10);
 
             // for loop
-            for (let i = 0; i < number; i++) {
-                // choose emoji
-                let emoji = getEmojiName(getRandomEmoji());
-                
-                // react (with catch cause discord doesnt have all)
-                message.react(emoji).catch(error => {
-                    if (error) console.error(error);
-                });
-            }
+            try {
+                for (let i = 0; i < number; i++) {
+                    // choose emoji
+                    let emoji = getEmojiName(getRandomEmoji());
+                    
+                    // react (with catch cause discord doesnt have all)
+                    message.react(emoji).catch(error => {
+                        if (error) console.error(error);
+                    });
+                }
+            } catch(error) {}
         }
     }
 

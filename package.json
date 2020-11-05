@@ -23,7 +23,9 @@
   "scripts": {
     "deploy": "npm run push && npm run pull-to-live",
     "pull-to-live": "pull.bat",
-    "push": "git add . && git commit && git push"
+    "push": "git add . && git commit && git push",
+    "build-dev": "tsc",
+    "run-dev": "nodemon ."
   },
   "repository": {
     "type": "git",

@@ -5,7 +5,7 @@ import * as dateFormat from "dateformat";
 
 // Current weather
 import * as file from "../../json/weather.json";
-import { MessageEmbed } from "discord.js";
+import { Client, MessageEmbed, TextChannel } from "discord.js";
 
 function generateWind(report) {
     if (["blizzard", "storm"].includes(report.rain.rain)) {
@@ -179,15 +179,17 @@ function stringWind(report) {
 }
 
 // Main function
-export default async function (discordClient) {
+export default async function (discordClient: Client) {
     // Fetch channel
-    const channel = discordClient.guilds.get("612778224887267342").channels.get('739577642713350165');
+    const channel: TextChannel = discordClient.guilds.cache.get("612778224887267342").channels.cache.get('739577642713350165') as TextChannel;
 
     // Fetch report
-    let init = generateTemp(file.current.word.num)
-    let clouds = generateClouds(init.word.text);
-    let rain = generateRain(clouds);
-    let report = generateWind(rain);
+    let init: any = generateTemp(file.current.word.num)
+    init.clouds = generateClouds(init.word.text);
+    init.rain = generateRain(init);
+    init.wind = generateWind(init);
+
+    let report = init;
 
     // Check if special event
     if (Math.random() >= 0.95) {
