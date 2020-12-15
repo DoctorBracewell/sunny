@@ -2,7 +2,7 @@ import { Client, MessageReaction, User } from "discord.js";
 import { MANSION } from "../constants";
 
 module.exports = (client: Client, reaction: MessageReaction, member: User) => {
-    // Constants and return if wronh channel
+    // Constants and return if wrong channel
     const message = reaction.message, emoji = reaction.emoji;
     if (message.channel.id != MANSION.channels.rules) return;
     
