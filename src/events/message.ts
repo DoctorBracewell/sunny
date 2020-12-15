@@ -12,9 +12,9 @@ import { random as getRandomEmoji} from "emoji-random";
 
 module.exports = (client: Client, message: Message) => {
     // Random reactions (as voted by the server (opt in tho (im not that evil (or am I???)))
-    if (message.author.id === "262293669099470848" && message.guild.id === MANSION.id && (users.includes(message.author.id))) {
+    if (message.guild.id === MANSION.id && (users.includes(message.author.id))) {
         // 1/100 chance
-        //if (randomBetween(0, 100) === 0) {
+        if (randomBetween(0, 100) === 0) {
             // number of emojis
             let number = randomBetween(3, 10);
 
@@ -31,7 +31,7 @@ module.exports = (client: Client, message: Message) => {
                 }
             } catch(error) {}
         }
-    //}
+    }
 
     // open 
 
