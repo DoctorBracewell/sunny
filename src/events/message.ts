@@ -14,9 +14,9 @@ module.exports = (client: Client, message: Message) => {
     const channel = message.channel as TextChannel;
 
     // Random reactions (as voted by the server (opt in tho (im not that evil (or am I???)))
-    if (message.guild.id === MANSION.id && message.author.id === "262293669099470848" /*(users.includes(message.author.id))*/) {
+    if (message.guild.id === MANSION.id && (users.includes(message.author.id))) {
         // 1/100 chance
-        if (randomBetween(0, 1) === 0) {
+        if (randomBetween(0, 100) === 0) {
             // number of emojis
             let number = randomBetween(3, 10);
 

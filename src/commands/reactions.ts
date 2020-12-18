@@ -7,7 +7,7 @@ module.exports = {
     description: "Opt in or out of getting reactions on your messages.",
     arguments: "",
     execute(client: Client, message: Message, args: string[]) {
-        const users = JSON.parse(readFileSync("./json/users.json", "utf-8"));
+        const users = JSON.parse(readFileSync("./users.json", "utf-8"));
 
         let newUsers = [];
 
@@ -20,10 +20,10 @@ module.exports = {
         }
 
 
-        writeFile("./json/users.json", JSON.stringify(newUsers), (err) => {
+        writeFile("./users.json", JSON.stringify(newUsers), (err) => {
             if (err) throw err;
 
-            writeFile("./json/userBackup.json", JSON.stringify(newUsers), (err) => {
+            writeFile("./userBackup.json", JSON.stringify(newUsers), (err) => {
                 if (err) throw err;
             });
         });
