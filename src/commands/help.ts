@@ -55,7 +55,7 @@ module.exports = {
       .setColor(randomColour())
       .setTitle("**Hello!**")
       .setDescription("I am Sunny, a custom discord bot coded by DrBracewell. Check below for some commands you can use.")
-      .setFooter("I'm always watching!");
+      .setTimestamp();
 
     const files = readdirSync(__dirname);
     let helpSections: Map<string, HelpSection> = new Map();
