@@ -6,7 +6,7 @@ import weather from "./weather/index";
 module.exports = (client: Client) => {
     // Show startup message + Set activity + save rule reaction message in cache
     console.log('-=+=- Starting Sunny -=+=-');
-    client.user.setActivity(`v2 released?!?!?!?`);
+    client.user.setActivity("Do you want a hug.");
 
     client.guilds.fetch(MANSION.id).then(guild => {
         const rulesChannel: TextChannel = guild.channels.cache.get(MANSION.channels.rules) as TextChannel;

@@ -5,7 +5,7 @@ import { MANSION } from "../constants";
 
 module.exports = {
     name: 'profile',
-    description: "Provides the specified character profile",
+    description: "Provides the specified character profile.",
     arguments: "list (name)",
 	execute(client: Client, message: Message, args: string[]) {
         if (message.guild.id !== MANSION.id) return;

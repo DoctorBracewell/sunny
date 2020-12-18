@@ -1,21 +1,23 @@
 import { Client, Message, TextChannel } from "discord.js";
-
-class OpenChannel {
-    
-}
+import { OPEN_EMOJI } from "../constants";
+import { OpenScene, sceneMap } from "../events/openscenes/controller";
 
 module.exports = {
     name: 'openscene',
-    description: "Indicate a roleplay scene is open by putting an emoji in the name.",
+    description: "Mark a channel as an open scene by placing a unique emoji in the name.",
     arguments: "",
     execute(client: Client, message: Message, args: string[]) {
-        // Return if already open
-        const channel = message.channel as TextChannel;
-        const openEmoji = "🅾️";
-        
-        if (channel.name.includes("🅾️")) {
-            message.reply("this channel is already marked as an open scene!");
+        if (sceneMap.has(message.channel.id)) {
+            message.reply("That channel is already marked as an open scene!");
             return;
         }
+
+        const channel = message.channel as TextChannel;
+        const OLD_NAME = channel.name;
+
+        channel.setName(`${OPEN_EMOJI}-${OLD_NAME}`).then(newChannel => {
+            sceneMap.set(message.channel.id, new OpenScene(newChannel, OLD_NAME));
+            sceneMap.get(message.channel.id).initChannelTimeout(client);
+        }).catch(error => console.log(error));
     }
 }

@@ -4,7 +4,7 @@ import { Client, Message, MessageEmbed } from "discord.js";
 
 module.exports = {
     name: 'anagram',
-    description: "Starts a anagram contenst",
+    description: "Starts a anagram contest.",
     arguments: "easy hard extreme",
     execute(client: Client, message: Message, args: string[]) {
         const difficultyChars = {

@@ -1,8 +1,8 @@
-import { Client, Message } from "discord.js";
-import { CTCODING, MANSION, PREFIX } from "../constants";
+import { Client, Guild, Message, TextChannel } from "discord.js";
+import { CTCODING, MANSION, PREFIX, DEVELOPMENT } from "../constants";
 import * as users from "../json/users.json";
 import { servers } from "../json/config.json";
-import { main } from "./dialogflow/index";
+import { main as runDialogflowRequest } from "./dialogflow/index";
 
 // Node modules
 import { randomBetween } from "drbracewell-random-tools"
@@ -11,6 +11,8 @@ import { random as getRandomEmoji} from "emoji-random";
 
 
 module.exports = (client: Client, message: Message) => {
+    const channel = message.channel as TextChannel;
+
     // Random reactions (as voted by the server (opt in tho (im not that evil (or am I???)))
     if (message.guild.id === MANSION.id && (users.includes(message.author.id))) {
         // 1/100 chance
@@ -33,10 +35,36 @@ module.exports = (client: Client, message: Message) => {
         }
     }
 
-    // open 
-
     // yada yada return if these things happen
-    if (message.author.bot || !(Object.values(servers).map(e => e.channels.bot).includes(message.channel.id)) || message.content.startsWith("//")) return;
+    if (message.author.bot) return;
+    if (message.content.startsWith("//")) return;
+
+    // Check Channels
+    let validChannels = [];
+
+    if (DEVELOPMENT) {
+        if (["$openscene", "$closescene"].some(command => message.content.includes(command))) {
+            let roleId = message.guild.roles.cache.find(role => role.name === "Open Scene Channels").id;
+
+            try {
+                if (channel.parent.permissionOverwrites.get(roleId).allow.bitfield === 8192) {
+                    validChannels.push(channel.id);
+                } else {
+                    throw new Error("Channel Not Valid");
+                }
+            } catch(error) {
+                console.log("This channel cannot be marked as an open scene!");
+            }
+        } else {
+            validChannels.push(servers.test.channels.bot);
+        }
+    } else if (["$openscene", "$closescene"].some(command => message.content.includes(command)) && channel.id === MANSION.id) {
+        // TODO: Move from development to here
+    } else {
+        validChannels = Object.values(servers).map(e => e.channels.bot);
+    }
+
+    if (!validChannels.includes(channel.id)) return;
 
     // Command handler
     if (message.content.startsWith(PREFIX)) {
@@ -44,11 +72,11 @@ module.exports = (client: Client, message: Message) => {
         const args = message.content.toLowerCase().slice(PREFIX.length).split(/ +/),
             command = args.shift().toLowerCase();
 
-        const cmd = client.commands.get(command);
+        const cmd = client.commands.get(command);        
 
         // 404 command not found
         if (!cmd) {
-            message.channel.send("I can't seem to find that command, sorry! Use `$help` to see a list of all commands.");
+            channel.send("I can't seem to find that command, sorry! Use `$help` to see a list of all commands.");
             return;
         }
 
@@ -62,9 +90,7 @@ module.exports = (client: Client, message: Message) => {
         return;
     }
 
-    // Don't do dialogflow in coding
-    if (message.channel.id === CTCODING.channels.bot) return;
-
-    // Dialogflow Main command
-    main(message);
+    // Dialogflow
+    if (channel.id === CTCODING.channels.bot) return;
+    runDialogflowRequest(message);
 }
