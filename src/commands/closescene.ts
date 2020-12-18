@@ -1,5 +1,5 @@
 import { Client, Message} from "discord.js";
-import { sceneMap } from "../events/openscenes/controller";
+import { sceneMap } from "../controllers/openscenes";
 
 module.exports = {
     name: "closescene",

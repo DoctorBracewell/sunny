@@ -1,6 +1,6 @@
 import { readdirSync } from "fs";
 import { randomColour } from "drbracewell-random-tools";
-import { Client, Collection, Command, Message, MessageEmbed } from "discord.js";
+import { Client, Command, Message, MessageEmbed } from "discord.js";
 
 function capitaliseFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);

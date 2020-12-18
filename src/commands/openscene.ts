@@ -1,6 +1,6 @@
 import { Client, Message, TextChannel } from "discord.js";
 import { OPEN_EMOJI } from "../constants";
-import { OpenScene, sceneMap } from "../events/openscenes/controller";
+import { OpenScene, sceneMap } from "../controllers/openscenes";
 
 module.exports = {
     name: "openscene",

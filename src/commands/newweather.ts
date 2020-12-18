@@ -1,5 +1,5 @@
 import { Client, Message } from "discord.js";
-import weather from "../events/weather/index";
+import weather from "../controllers/weather";
 
 module.exports = {
     name: "newweather",
