@@ -53,7 +53,7 @@ module.exports = (client: Client, message: Message) => {
                     throw new Error("Channel Not Valid");
                 }
             } catch(error) {
-                console.log("This channel cannot be marked as an open scene!");
+                message.reply("This channel cannot be marked as an open scene!");
             }
         } else {
             validChannels.push(servers.test.channels.bot);
@@ -68,7 +68,7 @@ module.exports = (client: Client, message: Message) => {
                 throw new Error("Channel Not Valid");
             }
         } catch(error) {
-            console.log("This channel cannot be marked as an open scene!");
+            message.reply("This channel cannot be marked as an open scene!");
         }
     } else {
         validChannels = Object.values(servers).map(e => e.channels.bot);
