@@ -43,8 +43,22 @@ module.exports = (client: Client, message: Message) => {
     let validChannels = [];
 
     if (DEVELOPMENT) {
-        validChannels.push(servers.test.channels.bot);
-    } else if (["$openscene", "$closescene"].some(command => message.content.includes(command)) && channel.id === MANSION.id) {
+        if (["$openscene", "$closescene"].some(command => message.content.includes(command)) && message.guild.id === servers.test.id) {
+            let roleId = message.guild.roles.cache.find(role => role.name === "Open Scene Channels").id;
+
+            try {
+                if (channel.parent.permissionOverwrites.get(roleId).allow.bitfield === 8192) {
+                    validChannels.push(channel.id);
+                } else {
+                    throw new Error("Channel Not Valid");
+                }
+            } catch(error) {
+                console.log("This channel cannot be marked as an open scene!");
+            }
+        } else {
+            validChannels.push(servers.test.channels.bot);
+        }
+    } else if (["$openscene", "$closescene"].some(command => message.content.includes(command)) && message.guild.id === MANSION.id) {
         let roleId = message.guild.roles.cache.find(role => role.name === "Open Scene Channels").id;
 
         try {
