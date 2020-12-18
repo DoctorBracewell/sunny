@@ -3,9 +3,9 @@ import { discord } from "./json/tokens.json";
 import {readdir} from "fs";
 
 // Discord.js Setup
-import * as Discord from "discord.js";
+import { Client, Collection } from "discord.js";
 import { Command } from "discord.js";
-const discordClient = new Discord.Client();
+const discordClient = new Client();
 
 // Attach events
 readdir(__dirname + "/events/", (err, files) => {
@@ -28,7 +28,7 @@ readdir(__dirname + "/events/", (err, files) => {
 });
 
 // Commands collection
-discordClient.commands = new Discord.Collection();
+discordClient.commands = new Collection();
 
 // Attach commands
 readdir(__dirname + "/commands/", (err, files) => {

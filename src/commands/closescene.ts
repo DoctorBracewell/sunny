@@ -1,8 +1,9 @@
 import { Client, Message} from "discord.js";
-import { OpenScene, sceneMap } from "../events/openscenes/controller";
+import { sceneMap } from "../events/openscenes/controller";
 
 module.exports = {
-    name: 'closescene',
+    name: "closescene",
+    category: "roleplay",
     description: "Mark a currently open channel as closed by removing the emoji in the name.",
     arguments: "",
     execute(client: Client, message: Message, args: string[]) {

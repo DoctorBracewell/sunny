@@ -4,7 +4,8 @@ import { Client, Message, MessageAttachment, MessageEmbed } from "discord.js";
 import { MANSION } from "../constants";
 
 module.exports = {
-    name: 'profile',
+    name: "profile",
+    category: "roleplay",
     description: "Provides the specified character profile.",
     arguments: "list (name)",
 	execute(client: Client, message: Message, args: string[]) {

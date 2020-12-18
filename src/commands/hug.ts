@@ -3,7 +3,8 @@ import { hugs } from "../json/config.json";
 import { Client, Message } from "discord.js";
 
 module.exports = {
-    name: 'hug',
+    name: "hug",
+    category: "fun", 
     description: "Hug(s)!",
     arguments: "1-20",
     execute(client: Client, message: Message, args: string[]) {

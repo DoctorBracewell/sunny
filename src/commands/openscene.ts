@@ -3,7 +3,8 @@ import { OPEN_EMOJI } from "../constants";
 import { OpenScene, sceneMap } from "../events/openscenes/controller";
 
 module.exports = {
-    name: 'openscene',
+    name: "openscene",
+    category: "roleplay",
     description: "Mark a channel as an open scene by placing a unique emoji in the name.",
     arguments: "",
     execute(client: Client, message: Message, args: string[]) {

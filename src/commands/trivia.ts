@@ -1,9 +1,10 @@
 import { randomColour, randomFromArray } from "drbracewell-random-tools";
-import fetch from "node-fetch"
+import fetch from "node-fetch";
 import { Client, Message, MessageEmbed } from "discord.js";
 
 module.exports = {
-  name: 'trivia',
+  name: "trivia",
+  category: "fun",
   description: "Starts a trivia contest.",
   arguments: "easy medium hard",
 	execute(client: Client, message: Message, args: string[]) {

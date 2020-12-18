@@ -2,7 +2,8 @@ import { Client, Message } from "discord.js";
 import { writeFile, readFileSync } from "fs";
 
 module.exports = {
-    name: 'reactions',
+    name: "reactions",
+    category: "utilities",
     description: "Opt in or out of getting reactions on your messages.",
     arguments: "",
     execute(client: Client, message: Message, args: string[]) {

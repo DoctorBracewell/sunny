@@ -3,7 +3,8 @@ import { randomColour } from "drbracewell-random-tools";
 import { Client, Message, MessageEmbed } from "discord.js";
 
 module.exports = {
-    name: 'anagram',
+    name: "anagram",
+    category: "roleplay",
     description: "Starts a anagram contest.",
     arguments: "easy hard extreme",
     execute(client: Client, message: Message, args: string[]) {
