@@ -8,6 +8,7 @@ module.exports = {
     arguments: "",
     execute(client: Client, message: Message, args: string[]) {
         const users = JSON.parse(readFileSync(`${__dirname}/../json/users.json`, "utf-8"));
+        console.log(users);
 
         let newUsers = [];
 
@@ -23,7 +24,7 @@ module.exports = {
         writeFile(`${__dirname}/../json/users.json`, JSON.stringify(newUsers), (err) => {
             if (err) throw err;
 
-            writeFile(`${__dirname}/../json/users.json`, JSON.stringify(newUsers), (err) => {
+            writeFile(`${__dirname}/../json/usersBackup.json`, JSON.stringify(newUsers), (err) => {
                 if (err) throw err;
             });
         });
