@@ -5,7 +5,8 @@ import * as dateFormat from "dateformat";
 
 // Current weather
 import * as file from "../../json/weather.json";
-import { Client, MessageEmbed, TextChannel } from "discord.js";
+import { Client, TextChannel } from "discord.js";
+import { SunnyEmbed } from "../../embeds";
 
 function generateWind(report) {
     if (["blizzard", "storm"].includes(report.rain.rain)) {
@@ -211,30 +212,30 @@ export default async function (discordClient: Client) {
         BURNING: "#e02e2e"
     }
 
-    let embed = new MessageEmbed()
+    let embed = new SunnyEmbed()
         .setAuthor("Ace Mansion Weather")
         .setTitle(dateFormat(date, "dddd, mmmm dS, yyyy"))
         .setDescription(`Welcome to the Ace Mansion Weather Report! The date is ${dateFormat(date, "dddd, mmmm dS, yyyy")}, and as usual it's me, Sunny, to give you the low down on how the weather is today!\n`)
         .setColor(colours[report.word.text])
-        .setTimestamp()
         .addField("Temperature:", `${report.word.text}\n${report.temp}°C | ${Math.round(report.temp * (9/5)) + 32}°F`)
         .addField("Cloud Cover:", `${report.clouds + (report.clouds === 0 ? "" : "0")}%`)
         .addField("Precipitation", (["storm", "blizzard"].includes(report.rain.rain) ? stringStorm(report) : stringPrecipitation(report)))
         .addField("Wind:", stringWind(report))
-        .addField("\u200b", "That's all for today's Ace Mansion Weather report, I'll see you tomorrow at 9am sharp for the next one!");
+        .addField("\u200b", "That's all for today's Ace Mansion Weather report, I'll see you tomorrow at 9am sharp for the next one!")
+        .setDefaultFooter();
 
     // Send report embed
     await channel.send(embed);
 
     // Send event embed
     if (report.event) {
-        const warnEmbed = new MessageEmbed()
+        const warnEmbed = new SunnyEmbed()
             .setAuthor("Ace Mansion Weather")
             .setTitle(`${report.event[0].toUpperCase() + report.event.slice(1)} Warning`)
             .setDescription(`Hi folks, we're just getting news of a **${report.event}** today!`)
             .setColor("#ff0505")
-            .setTimestamp()
-            .addField("\u200b", "This event can be very dangerous, so make sure you stay indoors as much as you can and keep you and your friends and family safe!");
+            .addField("\u200b", "This event can be very dangerous, so make sure you stay indoors as much as you can and keep you and your friends and family safe!")
+            .setDefaultFooter();
 
         await channel.send(warnEmbed);
         channel.send("<@&739572840935981067>");

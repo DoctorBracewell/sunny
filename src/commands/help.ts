@@ -1,6 +1,6 @@
 import { readdirSync } from "fs";
-import { randomColour } from "drbracewell-random-tools";
-import { Client, Command, Message, MessageEmbed } from "discord.js";
+import { Client, Command, Message } from "discord.js";
+import { SunnyEmbed } from "../embeds";
 
 function capitaliseFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -51,11 +51,10 @@ module.exports = {
       }
     }
 
-    const help = new MessageEmbed()
-      .setColor(randomColour())
+    const help = new SunnyEmbed()
+      .setDefaultProperties()
       .setTitle("**Hello!**")
-      .setDescription("I am Sunny, a custom discord bot coded by DrBracewell. Check below for some commands you can use.")
-      .setTimestamp();
+      .setDescription("I am Sunny, a custom discord bot coded by DrBracewell. Check below for some commands you can use.");
 
     const files = readdirSync(__dirname);
     let helpSections: Map<string, HelpSection> = new Map();

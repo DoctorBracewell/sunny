@@ -1,4 +1,4 @@
-import { Client, Guild, Message, TextChannel } from "discord.js";
+import { Client, Message, TextChannel } from "discord.js";
 import { CTCODING, MANSION, PREFIX, DEVELOPMENT } from "../constants";
 import * as users from "../json/users.json";
 import { servers } from "../json/config.json";

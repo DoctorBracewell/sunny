@@ -1,6 +1,6 @@
 import { Client, TextChannel } from "discord.js";
 import * as schedule from "node-schedule";
-import { MANSION, PREFIX } from "../constants";
+import { MANSION } from "../constants";
 import weather from "../controllers/weather";
 import { randomFromArray } from "drbracewell-random-tools";
 import { statuses } from "../json/config.json";

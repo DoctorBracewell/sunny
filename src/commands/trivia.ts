@@ -1,6 +1,7 @@
-import { randomColour, randomFromArray } from "drbracewell-random-tools";
+import { randomFromArray } from "drbracewell-random-tools";
 import fetch from "node-fetch";
-import { Client, Message, MessageEmbed } from "discord.js";
+import { Client, Message } from "discord.js";
+import { SunnyEmbed } from "../embeds";
 
 module.exports = {
   name: "trivia",
@@ -103,8 +104,8 @@ module.exports = {
         function questions() {
           // Question Template
           questionNumber++;
-          questionEmbed = new MessageEmbed()
-            .setColor(randomColour())
+          questionEmbed = new SunnyEmbed()
+            .setDefaultProperties()
             .setTitle(`**Question ${questionNumber}**:`);
     
           // Question Generation + Shuffling
@@ -180,12 +181,10 @@ module.exports = {
                   if (questionNumber === 5) {
                     setTimeout(() => {
                       message.channel.send(
-                        new MessageEmbed()
-                        .setColor(randomColour())
+                        new SunnyEmbed()
+                        .setDefaultProperties()
                         .setTitle(`**Contest Results**`)
                         .setDescription("Thanks for participating!")
-                        .setFooter("Use $trivia to start another contest.")
-                        .setTimestamp()
                         .addField("Leaderboard:", sortContestants())
                       );
                     }, 5000)

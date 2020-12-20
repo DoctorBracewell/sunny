@@ -1,6 +1,7 @@
 import * as randomWord from "random-words";
 import { randomColour } from "drbracewell-random-tools";
-import { Client, Message, MessageEmbed } from "discord.js";
+import { Client, Message } from "discord.js";
+import { SunnyEmbed } from "../embeds";
 
 module.exports = {
     name: "anagram",
@@ -25,13 +26,12 @@ module.exports = {
           word = String(randomWord());
         }
 
-        let embed = new MessageEmbed()
-          .setColor(randomColour())
+        let embed = new SunnyEmbed()
+          .setDefaultProperties()
           .setTitle("**Race to see who can unscramble the word below first!**")
           .setDescription("If no-one can guess the word, the contest will disband after 1 minute.")
           .addField("__Your scrambled word is__:", word.split('').sort(function(){return 0.5-Math.random()}).join(''))
           .setFooter("Use $anagram to start another contest!")
-          .setTimestamp();
 
         message.channel.send(embed);
 

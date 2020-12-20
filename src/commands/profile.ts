@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
-import { randomColour } from "drbracewell-random-tools";
-import { Client, Message, MessageAttachment, MessageEmbed } from "discord.js";
+import { Client, Message, MessageAttachment } from "discord.js";
 import { MANSION } from "../constants";
+import { SunnyEmbed } from "../embeds";
 
 module.exports = {
     name: "profile",
@@ -21,9 +21,8 @@ module.exports = {
             return finishedString;
         }
 
-        let profile = new MessageEmbed()
-            .setColor(randomColour())
-            .setTimestamp();
+        let profile = new SunnyEmbed()
+            .setDefaultProperties()
 
         let character = args[0].toLowerCase() == "list" ? "all" : args[0].toLowerCase()
 
