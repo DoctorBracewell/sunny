@@ -18,7 +18,7 @@ module.exports = {
         let word = String(randomWord());
 
         if (args === [] || !["easy", "hard", "extreme"].includes(args[0])) {
-          message.channel.send("Please send a valid anagram type; `easy` or `hard` or `extreme`.");
+          message.channel.send("Please provide a valid anagram type; `easy` or `hard` or `extreme`.");
           return;
         }
 

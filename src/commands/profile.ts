@@ -1,16 +1,19 @@
 import fetch from "node-fetch";
 import { Client, Message, MessageAttachment } from "discord.js";
-import { MANSION } from "../constants";
+import { DEVELOPMENT, MANSION, TEST } from "../constants";
 import { SunnyEmbed } from "../embeds";
-import { rejects } from "assert";
 
 module.exports = {
     name: "profile",
     category: "roleplay",
     description: "Provides the specified character profile.",
-    arguments: "list (name)",
+    arguments: "list <name>",
 	execute(client: Client, message: Message, args: string[]) {
-        if (message.guild.id !== MANSION.id) return;
+        if (message.guild.id !== (DEVELOPMENT ? TEST.id : MANSION.id)) return;
+        if (args.length < 1) {
+            message.channel.send("Please provide the name of a character! Use `$profile list` to see all characters.");
+            return;
+        }
 
         function characters(res) { 
             let finishedString = "";
@@ -22,12 +25,16 @@ module.exports = {
             return finishedString;
         }
 
-        let profile = new SunnyEmbed()
-            .setDefaultProperties()
-
         let character = args[0].toLowerCase() == "list" ? "all" : args[0].toLowerCase()
 
-        fetch(`https://sunny.drbracewell.co.uk/character?name=${character}`, {})
+        fetch(`https://sunny.drbracewell.co.uk/character?name=${character}`)
+        .then(res => {
+            if (res.ok) {
+                return res;
+            } else {
+                throw new Error(res.status === 404 ? "Oops, I can't find that character in the database!" : "Oops, something went wrong!");
+            }
+        })
         .then(res => res.json())
         .then(res => {
 
@@ -36,14 +43,11 @@ module.exports = {
                 return;
             }
 
-            if (!res.ok) {
-                message.channel.send(res.error)
-                return;
-            }
-
             character = character.charAt(0).toUpperCase() + character.slice(1);
 
-            profile.setTitle(`${character}'s Profile.`)
+            let profile = new SunnyEmbed()
+                .setDefaultColor()
+                .setTitle(`${character}'s Profile.`)
                 .addField("Full Name: ", res.fullname)
                 .addField("Gender: ", res.gender)
                 .addField("Species: ", res.species)
@@ -62,9 +66,10 @@ module.exports = {
                     .setFooter(`Image from/by ${res.reference.author}.`);
             }
 
-            message.channel.send({embed: profile}).catch(error => console.log(error))
+            message.channel.send(profile).catch(error => console.log(error))
         })
         .catch(error => {
+            message.reply(error.message);
             console.log(error);
         })
 	}
