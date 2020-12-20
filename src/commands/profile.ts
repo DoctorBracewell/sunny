@@ -27,7 +27,7 @@ module.exports = {
 
         let character = args[0].toLowerCase() == "list" ? "all" : args[0].toLowerCase()
 
-        fetch(`http://sunny.drbracewell.co.uk/character?name=${character}`, {})
+        fetch(`https://sunny.drbracewell.co.uk/character?name=${character}`, {})
         .then(res => res.json())
         .then(res => {
 
