@@ -2,6 +2,7 @@ import fetch from "node-fetch";
 import { Client, Message, MessageAttachment } from "discord.js";
 import { MANSION } from "../constants";
 import { SunnyEmbed } from "../embeds";
+import { rejects } from "assert";
 
 module.exports = {
     name: "profile",
@@ -37,6 +38,7 @@ module.exports = {
 
             if (!res.ok) {
                 message.channel.send(res.error)
+                return;
             }
 
             character = character.charAt(0).toUpperCase() + character.slice(1);
