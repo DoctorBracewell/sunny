@@ -213,6 +213,7 @@ export default async function (discordClient: Client) {
     }
 
     let embed = new SunnyEmbed()
+        .setDefaultFooter()
         .setAuthor("Ace Mansion Weather")
         .setTitle(dateFormat(date, "dddd, mmmm dS, yyyy"))
         .setDescription(`Welcome to the Ace Mansion Weather Report! The date is ${dateFormat(date, "dddd, mmmm dS, yyyy")}, and as usual it's me, Sunny, to give you the low down on how the weather is today!\n`)
@@ -221,8 +222,7 @@ export default async function (discordClient: Client) {
         .addField("Cloud Cover:", `${report.clouds + (report.clouds === 0 ? "" : "0")}%`)
         .addField("Precipitation", (["storm", "blizzard"].includes(report.rain.rain) ? stringStorm(report) : stringPrecipitation(report)))
         .addField("Wind:", stringWind(report))
-        .addField("\u200b", "That's all for today's Ace Mansion Weather report, I'll see you tomorrow at 9am sharp for the next one!")
-        .setDefaultFooter();
+        .addField("\u200b", "That's all for today's Ace Mansion Weather report, I'll see you tomorrow at 9am sharp for the next one!");
 
     // Send report embed
     await channel.send(embed);
@@ -230,12 +230,12 @@ export default async function (discordClient: Client) {
     // Send event embed
     if (report.event) {
         const warnEmbed = new SunnyEmbed()
+            .setDefaultFooter()
             .setAuthor("Ace Mansion Weather")
             .setTitle(`${report.event[0].toUpperCase() + report.event.slice(1)} Warning`)
             .setDescription(`Hi folks, we're just getting news of a **${report.event}** today!`)
             .setColor("#ff0505")
-            .addField("\u200b", "This event can be very dangerous, so make sure you stay indoors as much as you can and keep you and your friends and family safe!")
-            .setDefaultFooter();
+            .addField("\u200b", "This event can be very dangerous, so make sure you stay indoors as much as you can and keep you and your friends and family safe!");
 
         await channel.send(warnEmbed);
         channel.send("<@&739572840935981067>");

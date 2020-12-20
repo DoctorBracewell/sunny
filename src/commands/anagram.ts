@@ -30,8 +30,7 @@ module.exports = {
           .setDefaultProperties()
           .setTitle("**Race to see who can unscramble the word below first!**")
           .setDescription("If no-one can guess the word, the contest will disband after 1 minute.")
-          .addField("__Your scrambled word is__:", word.split('').sort(function(){return 0.5-Math.random()}).join(''))
-          .setFooter("Use $anagram to start another contest!")
+          .addField("__Your scrambled word is__:", word.split('').sort(function(){return 0.5-Math.random()}).join(''));
 
         message.channel.send(embed);
 
