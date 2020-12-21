@@ -2,7 +2,14 @@ import { Client, Message, TextChannel } from "discord.js";
 import { OPEN_EMOJI } from "../constants";
 import { OpenScene, sceneMap } from "../controllers/openscenes";
 
-module.exports = {
+export function initOpenScene(channel: TextChannel, client: Client, oldName: string) {
+    channel.setName(`${OPEN_EMOJI}-${oldName}`).then(newChannel => {
+        sceneMap.set(channel.id, new OpenScene(newChannel, oldName));
+        sceneMap.get(channel.id).initChannelTimeout(client);
+    }).catch(error => console.log(error));
+}
+
+export const command = {
     name: "openscene",
     category: "roleplay",
     description: "Mark a channel as an open scene by placing a unique emoji in the name.",
@@ -13,12 +20,6 @@ module.exports = {
             return;
         }
 
-        const channel = message.channel as TextChannel;
-        const OLD_NAME = channel.name;
-
-        channel.setName(`${OPEN_EMOJI}-${OLD_NAME}`).then(newChannel => {
-            sceneMap.set(message.channel.id, new OpenScene(newChannel, OLD_NAME));
-            sceneMap.get(message.channel.id).initChannelTimeout(client);
-        }).catch(error => console.log(error));
+        initOpenScene(message.channel as TextChannel, client, (message.channel as TextChannel).name);
     }
 }

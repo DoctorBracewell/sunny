@@ -6,12 +6,12 @@ function capitaliseFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-module.exports = {
+export const command = {
   name: "help",
   category: "utilities",
   description: "Provides this message.",
   arguments: "",
-	execute(client: Client, message: Message, args: string[]) {
+  execute(client: Client, message: Message, args: string[]) {
     class CommandTag {
       name: string;
       args: string;
@@ -59,17 +59,16 @@ module.exports = {
     const files = readdirSync(__dirname);
     let helpSections: Map<string, HelpSection> = new Map();
 
-
     files.filter(file => file.endsWith(".js")).forEach(file => {
-      const command: Command = require(`./${file}`);
-
+      const command = require(`./${file}`).command;
+      
       if (helpSections.has(command.category)) {
         helpSections.get(command.category).addCommand(command);
       } else {
         helpSections.set(command.category, new HelpSection(command.category));
         helpSections.get(command.category).addCommand(command);
       }
-    });
+    })
 
     new Map([...helpSections].sort()).forEach(section => {
       section.appendToEmbed();
@@ -77,5 +76,5 @@ module.exports = {
     
     help.addField("\u200B", "You can also just try chatting to me normally, though sometimes I won't have the best responses, sorry!\n");
     message.reply(help);
-	}
+  }
 };

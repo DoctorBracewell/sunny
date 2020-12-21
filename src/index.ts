@@ -11,19 +11,17 @@ const discordClient = new Client();
 readdir(__dirname + "/events/", (err, files) => {
   if (err) return console.error(err);
 
-  files.forEach(file => {
+  files.forEach(async file => {
     // Check for only js files
     if (!(file.endsWith(".js"))) return;
 
     // Require file
-    const event = require(`${__dirname}/events/${file}`);
+    const event = await import(`${__dirname}/events/${file}`);
 
     // Event name
     let eventName = file.split(".")[0];
 
-    discordClient.on(eventName, event.bind(null, discordClient));
-    delete require.cache[require.resolve(`${__dirname}/events/${file}`)];
-
+    discordClient.on(eventName, event.main.bind(null, discordClient));
   });
 });
 
@@ -34,10 +32,10 @@ discordClient.commands = new Collection();
 readdir(__dirname + "/commands/", (err, files) => {
   if (err) return console.error(err);
 
-  files.forEach(file => {
+  files.forEach(async file => {
     if (!(file.endsWith(".js"))) return;
 
-    let props: Command = require(`${__dirname}/commands/${file}`);
+    let props: Command = (await import(`${__dirname}/commands/${file}`)).command;
     let commandName = file.split(".")[0];
 
     discordClient.commands.set(commandName, props);

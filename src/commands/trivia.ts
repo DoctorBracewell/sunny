@@ -3,7 +3,7 @@ import fetch from "node-fetch";
 import { Client, Message } from "discord.js";
 import { SunnyEmbed } from "../embeds";
 
-module.exports = {
+export const command = {
   name: "trivia",
   category: "fun",
   description: "Starts a trivia contest.",

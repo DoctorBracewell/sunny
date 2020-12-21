@@ -1,7 +1,7 @@
 import { Client, GuildMember, TextChannel } from "discord.js";
 import { MANSION } from "../constants";
 
-module.exports = (client: Client, member: GuildMember) => {
+export function main(client: Client, member: GuildMember) {
     if (member.user.bot || member.guild.id !== MANSION.id) return; 
   
     // Add blocked channels

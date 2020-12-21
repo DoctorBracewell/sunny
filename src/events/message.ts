@@ -10,7 +10,7 @@ import { get as getEmojiName } from "emoji-name-map";
 import { random as getRandomEmoji} from "emoji-random";
 
 
-module.exports = (client: Client, message: Message) => {
+export function main(client: Client, message: Message) {
     const channel = message.channel as TextChannel;
 
     // Random reactions (as voted by the server (opt in tho (im not that evil (or am I???)))

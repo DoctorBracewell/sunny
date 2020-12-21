@@ -2,7 +2,7 @@ import { randomFromArray, randomBetween } from "drbracewell-random-tools";
 import { hugs } from "../json/config.json";
 import { Client, Message } from "discord.js";
 
-module.exports = {
+export const command = {
     name: "hug",
     category: "fun", 
     description: "Hug(s)!",

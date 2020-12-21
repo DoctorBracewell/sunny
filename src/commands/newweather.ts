@@ -1,7 +1,7 @@
 import { Client, Message } from "discord.js";
 import weather from "../controllers/weather";
 
-module.exports = {
+export const command = {
     name: "newweather",
     category: "utilities",
     description: "For mod use only, creates a new weather report in the channel.",

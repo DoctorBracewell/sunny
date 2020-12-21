@@ -3,7 +3,7 @@ import { Client, Message, MessageAttachment } from "discord.js";
 import { DEVELOPMENT, MANSION, TEST } from "../constants";
 import { SunnyEmbed } from "../embeds";
 
-module.exports = {
+export const command = {
     name: "profile",
     category: "roleplay",
     description: "Provides the specified character profile.",

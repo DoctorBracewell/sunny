@@ -1,7 +1,7 @@
 import { Client, Message } from "discord.js";
 import { writeFile, readFileSync } from "fs";
 
-module.exports = {
+export const command = {
     name: "reactions",
     category: "utilities",
     description: "Opt in or out of getting reactions on your messages.",

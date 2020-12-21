@@ -3,7 +3,7 @@ import { randomColour } from "drbracewell-random-tools";
 import { Client, Message } from "discord.js";
 import { SunnyEmbed } from "../embeds";
 
-module.exports = {
+export const command = {
     name: "anagram",
     category: "fun",
     description: "Starts a anagram contest.",
