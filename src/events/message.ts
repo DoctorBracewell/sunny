@@ -1,22 +1,24 @@
 import { Client, Message, TextChannel } from "discord.js";
 import { CTCODING, MANSION, PREFIX, DEVELOPMENT } from "../constants";
-import * as users from "../json/users.json";
 import { servers } from "../json/config.json";
 import { main as runDialogflowRequest } from "../controllers/dialogflow";
+import { UserSchema } from "../commands/toggle";
 
 // Node modules
 import { randomBetween } from "drbracewell-random-tools"
 import { get as getEmojiName } from "emoji-name-map";
 import { random as getRandomEmoji} from "emoji-random";
+import { model } from "mongoose";
 
+const UserModel = model("reactions", UserSchema);
 
-export function main(client: Client, message: Message) {
+export async function main(client: Client, message: Message) {
     const channel = message.channel as TextChannel;
 
     // Random reactions (as voted by the server (opt in tho (im not that evil (or am I???)))
-    if (message.guild.id === MANSION.id && (users.includes(message.author.id))) {
+    if (randomBetween(0, 100) === 0) {
         // 1/100 chance
-        if (randomBetween(0, 100) === 0) {
+        if (message.guild.id === MANSION.id && await UserModel.findOne({ id: message.member.id })) {
             // number of emojis
             let number = randomBetween(3, 10);
 

@@ -1,5 +1,7 @@
 import * as config from "./json/config.json"
+import { mongo } from "./json/tokens.json";
 
+export const MONGO_PASSWORD = mongo;
 export const PREFIX = config.prefix;
 export const MANSION = config.servers.mansion;
 export const CTCODING = config.servers.programming;
