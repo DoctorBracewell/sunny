@@ -42,34 +42,16 @@ export function main(client: Client, message: Message) {
     // Check Channels
     let validChannels = [];
 
-    if (DEVELOPMENT) {
-        if (["$openscene", "$closescene"].some(command => message.content.includes(command)) && message.guild.id === servers.test.id) {
-            let roleId = message.guild.roles.cache.find(role => role.name === "Open Scene Channels").id;
+    if (["$openscene", "$closescene"].some(command => message.content.includes(command)) && message.guild.id === (DEVELOPMENT ? servers.test.id : MANSION.id)) {
+        let role = message.guild.roles.cache.find(role => role.name === "Open Scene Channels");
 
-            try {
-                if (channel.parent.permissionOverwrites.get(roleId).allow.bitfield === 8192) {
-                    validChannels.push(channel.id);
-                } else {
-                    throw new Error("Channel Not Valid");
-                }
-            } catch(error) {
-                message.reply("This channel cannot be marked as an open scene!");
-            }
+        if (channel?.parent?.permissionsFor(role)?.has("MANAGE_MESSAGES")) {
+            validChannels.push(channel.id);
         } else {
-            validChannels.push(servers.test.channels.bot);
-        }
-    } else if (["$openscene", "$closescene"].some(command => message.content.includes(command)) && message.guild.id === MANSION.id) {
-        let roleId = message.guild.roles.cache.find(role => role.name === "Open Scene Channels").id;
-
-        try {
-            if (channel.parent.permissionOverwrites.get(roleId).allow.bitfield === 8192) {
-                validChannels.push(channel.id);
-            } else {
-                throw new Error("Channel Not Valid");
-            }
-        } catch(error) {
             message.reply("This channel cannot be marked as an open scene!");
         }
+    } else if (DEVELOPMENT) {
+        validChannels.push(servers.test.channels.bot);
     } else {
         validChannels = Object.values(servers).map(e => e.channels.bot);
     }
