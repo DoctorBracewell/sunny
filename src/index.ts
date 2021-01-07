@@ -43,6 +43,5 @@ readdir(__dirname + "/commands/", (err, files) => {
   });
 });
 
-
 // Login
 discordClient.login(discord);
