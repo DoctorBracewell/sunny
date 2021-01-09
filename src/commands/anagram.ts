@@ -1,5 +1,4 @@
 import * as randomWord from "random-words";
-import { randomColour } from "drbracewell-random-tools";
 import { Client, Message } from "discord.js";
 import { SunnyEmbed } from "../embeds";
 

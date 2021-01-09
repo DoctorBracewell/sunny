@@ -1,6 +1,6 @@
 import { Client, Message } from "discord.js";
 import * as mongoose from "mongoose";
-import { MONGO_PASSWORD, PREFIX } from "../constants";
+import { MONGO_PASSWORD } from "../constants";
 
 const mongoURI = `mongodb+srv://drbracewell:${MONGO_PASSWORD}@sunnyprofiles.uovhf.mongodb.net/opt_ins?retryWrites=true&w=majority`;
 export const UserSchema = new mongoose.Schema({

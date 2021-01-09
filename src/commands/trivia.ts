@@ -9,7 +9,6 @@ export const command = {
   description: "Starts a trivia contest.",
   arguments: "easy medium hard",
 	execute(client: Client, message: Message, args: string[]) {
-
         if (args.length === 0) {
           message.channel.send("Please provide a difficulty, `easy`, `medium` or `hard`.");
           return;

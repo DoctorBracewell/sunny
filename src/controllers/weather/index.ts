@@ -169,7 +169,7 @@ function stringWind(report) {
 
         finished += report.wind === 2 ? "light" : (report.wind === 3 ? "strong" : "powerful");
 
-        finished += " "
+        finished += " ";
 
         finished += report.wind === 2 ? "breeze" : (report.wind === 3 ? "winds" : "gales");
 
