@@ -3,6 +3,7 @@ import { CTCODING, MANSION, PREFIX, DEVELOPMENT } from "../constants";
 import { servers } from "../json/config.json";
 import { main as runDialogflowRequest } from "../controllers/dialogflow";
 import { UserSchema } from "../commands/toggle";
+import { Roll } from "../controllers/dice";
 
 // Node modules
 import { randomBetween } from "drbracewell-random-tools"
@@ -40,6 +41,10 @@ export async function main(client: Client, message: Message) {
     // yada yada return if these things happen
     if (message.author.bot) return;
     if (message.content.startsWith("//")) return;
+    if (message.content.startsWith("/r")) {
+        new Roll(message);
+        return;
+    }
 
     // Check Channels
     let validChannels = [];
