@@ -5,6 +5,7 @@ export class Roll {
     message: Message;
     diceNumber: number;
     faces: number;
+    bonus: number;
     comment: string;
     total: {
         number: number, 
@@ -14,14 +15,15 @@ export class Roll {
 
     constructor(message: Message) {
         // Extract message parts
-        const parsed = message.content.match(/\/r\s(\d+d\d+)(?:\s#(.+))?/),
+        const parsed = message.content.match(/\/r\s(\d+d\d+)(?:([\+\-]\d))?(?:\s#(.+))?/),
               diceConfig = parsed[1].split("d");
 
         // Assign to instance
         this.message = message;
         this.diceNumber = parseInt(diceConfig[0]);
         this.faces = parseInt(diceConfig[1]);
-        this.comment = parsed[2] ? ` ${parsed[2]}` : "";
+        this.bonus = parsed[2] ? parseInt(parsed[2]) : 0;
+        this.comment = parsed[3] ? ` ${parsed[3]}` : "";
         this.total = {
             number: 0,
             list: new Array()
@@ -31,7 +33,7 @@ export class Roll {
         // If 
         for (const number of [this.diceNumber, this.faces]) {
             if (number > 400) {
-                message.reply("the dice config you have provided is invalid: One of the numbers is above it's maximum `400`.");
+                message.reply("the dice config you have provided is invalid: One of the numbers is above its maximum `400`.");
                 return;
             }
         }
@@ -56,8 +58,9 @@ export class Roll {
             this.resultString += "+";
         }
 
-        this.resultString = this.resultString.slice(0, -1); 
-        this.resultString += `) = ${this.total.number}`;
+        this.resultString = this.resultString.slice(0, -1);
+        if (this.bonus) this.resultString += `) ${this.bonus > 0 ? `+ ${this.bonus}` : this.bonus.toString().split("").join(" ")}`;
+        this.resultString += `${this.bonus ? "" : ")"} = ${this.total.number + this.bonus}`;
 
         this.sendResult();
     }
