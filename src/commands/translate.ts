@@ -12,7 +12,7 @@ export const command = {
         const 
             translate = new GoogleTranslate.Translate(),
             language = ISO6391.getCode(args[0]),
-            phrase = message.content.split(" ").slice(2);
+            phrase = message.content.split(" ").slice(2).join(" ");
 
         if (!language) return message.reply("oops, looks like something went wrong with the language you requested. Try again?");
 

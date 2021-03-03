@@ -2,7 +2,7 @@ import { Client, Message } from "discord.js";
 
 export const command = {
     name: "trigger",
-    category: "utilities",
+    category: "utility",
     description: "For mod use only, triggers certain custom-coded events.",
     arguments: "<varied>",
     async execute(client: Client, message: Message, args: string[]) {

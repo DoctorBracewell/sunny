@@ -4,7 +4,7 @@ import { SunnyEmbed, capitaliseFirstLetter  } from "../utils";
 
 export const command = {
   name: "help",
-  category: "utilities",
+  category: "utility",
   description: "Provides this message.",
   arguments: "",
   execute(client: Client, message: Message, args: string[]) {

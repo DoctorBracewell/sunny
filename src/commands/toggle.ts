@@ -15,7 +15,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 
 export const command = {
     name: "toggle",
-    category: "utilities",
+    category: "utility",
     description: "Opt in or out of recieving certain events.",
     arguments: "reactions",
     async execute(client: Client, message: Message, args: string[]) {

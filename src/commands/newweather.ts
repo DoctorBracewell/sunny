@@ -3,7 +3,7 @@ import weather from "../controllers/weather";
 
 export const command = {
     name: "newweather",
-    category: "utilities",
+    category: "utility",
     description: "For mod use only, creates a new weather report in the channel.",
     arguments: "",
     execute(client: Client, message: Message, args: string[]) {
