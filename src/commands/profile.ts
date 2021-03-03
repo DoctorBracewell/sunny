@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 import { Client, Message, MessageAttachment } from "discord.js";
 import { DEVELOPMENT, MANSION, TEST } from "../constants";
-import { SunnyEmbed } from "../embeds";
+import { SunnyEmbed } from "../utils";
 
 export const command = {
     name: "profile",

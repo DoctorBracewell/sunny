@@ -6,7 +6,9 @@ export function initOpenScene(channel: TextChannel, client: Client, oldName: str
     channel.setName(`${OPEN_EMOJI}-${oldName}`).then(newChannel => {
         sceneMap.set(channel.id, new OpenScene(newChannel, oldName));
         sceneMap.get(channel.id).initChannelTimeout(client);
-    }).catch(error => console.log(error));
+    }).catch(error => {
+        console.log(error)
+    });
 }
 
 export const command = {

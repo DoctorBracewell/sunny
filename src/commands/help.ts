@@ -1,10 +1,6 @@
 import { readdirSync } from "fs";
 import { Client, Command, Message } from "discord.js";
-import { SunnyEmbed } from "../embeds";
-
-function capitaliseFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
+import { SunnyEmbed, capitaliseFirstLetter  } from "../utils";
 
 export const command = {
   name: "help",

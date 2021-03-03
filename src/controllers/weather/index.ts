@@ -6,7 +6,7 @@ import * as dateFormat from "dateformat";
 // Current weather
 import * as file from "../../json/weather.json";
 import { Client, TextChannel } from "discord.js";
-import { SunnyEmbed } from "../../embeds";
+import { SunnyEmbed } from "../../utils";
 
 function generateWind(report) {
     if (["blizzard", "storm"].includes(report.rain.rain)) {

@@ -1,6 +1,6 @@
 import * as randomWord from "random-words";
 import { Client, Message } from "discord.js";
-import { SunnyEmbed } from "../embeds";
+import { SunnyEmbed } from "../utils";
 
 export const command = {
     name: "anagram",

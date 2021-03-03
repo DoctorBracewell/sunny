@@ -1,7 +1,7 @@
 import { randomFromArray } from "drbracewell-random-tools";
 import fetch from "node-fetch";
 import { Client, Message } from "discord.js";
-import { SunnyEmbed } from "../embeds";
+import { SunnyEmbed } from "../utils";
 
 export const command = {
   name: "trivia",
