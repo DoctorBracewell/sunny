@@ -15,7 +15,7 @@ export const command = {
     )
       return;
 
-    weather(client);
+    weather(client, false);
 
     message.delete();
   },

@@ -98,11 +98,11 @@ function tempValue(temperature) {
   };
 }
 
-function generateTemp(previous) {
+function generateTemp(previous, changeType: boolean) {
   if ([0, 5].includes(previous)) {
     const change = randomBetween(1, 5);
 
-    if (change <= 2) {
+    if (change <= 2 || !changeType) {
       // temp stays same
       return tempValue(previous);
     } else {
@@ -206,14 +206,14 @@ function stringWind(report) {
 }
 
 // Main function
-export default async function (discordClient: Client) {
+export default async function (discordClient: Client, changeType: boolean) {
   // Fetch channel
   const channel: TextChannel = discordClient.guilds.cache
     .get("612778224887267342")
     .channels.cache.get("739577642713350165") as TextChannel;
 
   // Fetch report
-  let init: any = generateTemp(file.current.word.num);
+  let init: any = generateTemp(file.current.word.num, changeType);
   init.clouds = generateClouds(init.word.text);
   init.rain = generateRain(init);
   init.wind = generateWind(init);
