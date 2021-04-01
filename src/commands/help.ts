@@ -1,6 +1,6 @@
 import { readdirSync } from "fs";
 import { Client, Command, Message } from "discord.js";
-import { SunnyEmbed, capitaliseFirstLetter  } from "../utils";
+import { SunnyEmbed, capitaliseFirstLetter } from "../utils";
 
 export const command = {
   name: "help",
@@ -23,8 +23,10 @@ export const command = {
         let formattedTag = "- **$";
 
         formattedTag += `${this.name}** `;
-        formattedTag += `${this.args.length !== 0 ? `[${this.args.split(" ").join("/")}]` : ""} **➤** `;
-        formattedTag += `${this.description}`
+        formattedTag += `${
+          this.args.length !== 0 ? `[${this.args.split(" ").join("/")}]` : ""
+        } **➤** `;
+        formattedTag += `${this.description}`;
 
         return formattedTag;
       }
@@ -39,38 +41,52 @@ export const command = {
       }
 
       appendToEmbed() {
-        help.addField(`__${capitaliseFirstLetter(this.name)}__`, `\n${this.commands.map(command => command.formatTag()).join("\n")}\n`);
+        help.addField(
+          `__${capitaliseFirstLetter(this.name)}__`,
+          `\n${this.commands
+            .map((command) => command.formatTag())
+            .join("\n")}\n`
+        );
       }
 
       addCommand(command) {
-        this.commands.push(new CommandTag(command.name, command.arguments, command.description));
+        this.commands.push(
+          new CommandTag(command.name, command.arguments, command.description)
+        );
       }
     }
 
     const help = new SunnyEmbed()
       .setDefaultProperties()
       .setTitle("**Hello!**")
-      .setDescription("I am Sunny, a custom discord bot coded by DrBracewell. Check below for some commands you can use.");
+      .setDescription(
+        "I am Sunny, a custom discord bot coded by DrBracewell. Check below for some commands you can use."
+      );
 
     const files = readdirSync(__dirname);
     let helpSections: Map<string, HelpSection> = new Map();
 
-    files.filter(file => file.endsWith(".js")).forEach(file => {
-      const command = require(`./${file}`).command;
-      
-      if (helpSections.has(command.category)) {
-        helpSections.get(command.category).addCommand(command);
-      } else {
-        helpSections.set(command.category, new HelpSection(command.category));
-        helpSections.get(command.category).addCommand(command);
-      }
-    })
+    files
+      .filter((file) => file.endsWith(".js"))
+      .forEach((file) => {
+        const command = require(`./${file}`).command;
 
-    new Map([...helpSections].sort()).forEach(section => {
+        if (helpSections.has(command.category)) {
+          helpSections.get(command.category).addCommand(command);
+        } else {
+          helpSections.set(command.category, new HelpSection(command.category));
+          helpSections.get(command.category).addCommand(command);
+        }
+      });
+
+    new Map([...helpSections].sort()).forEach((section) => {
       section.appendToEmbed();
-    })
-    
-    help.addField("\u200B", "You can also just try chatting to me normally, though sometimes I won't have the best responses, sorry!\n");
+    });
+
+    help.addField(
+      "\u200B",
+      "You can also just try chatting to me normally, though sometimes I won't have the best responses, sorry!\n"
+    );
     message.reply(help);
-  }
+  },
 };
