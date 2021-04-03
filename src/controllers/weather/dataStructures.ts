@@ -1,44 +1,99 @@
 import { Document, Schema } from "mongoose";
 
-export interface ReportInterface extends Document {
+export interface ReportModel extends Document {
   _id: number;
-  word: {
-    text: string;
-    num: number;
+  temperature: {
+    climate: Climate;
+    exact: number;
   };
-  temp: number;
   clouds: number;
   rain: {
-    rain: string;
-    time: number;
-    strength: number;
+    type: RainType;
+    time: RainTime;
+    strength: RainStrength;
   };
-  wind: number;
-  event: {
-    active: boolean;
-    word: string;
-  };
+  wind: WindStrength;
+  eventActive: boolean;
 }
 
 export const reportSchema = new Schema(
   {
     _id: Number,
-    word: {
-      text: String,
-      num: Number,
+    temperature: {
+      climate: Number,
+      exact: Number,
     },
-    temp: Number,
     clouds: Number,
     rain: {
-      rain: String,
+      type: Number,
       time: Number,
       strength: Number,
     },
     wind: Number,
-    event: {
-      active: Boolean,
-      word: String,
-    },
+    eventActive: Boolean,
   },
   { _id: false }
 );
+
+export enum Climate {
+  freezing,
+  cold,
+  cool,
+  warm,
+  hot,
+  burning,
+}
+
+export enum RainType {
+  none,
+  rain,
+  snow,
+  storm,
+  blizzard,
+  animals,
+  ice_cream,
+}
+
+export enum RainTime {
+  none,
+  occasional,
+  often,
+  constant,
+}
+
+export enum RainStrength {
+  none,
+  light,
+  medium,
+  heavy,
+}
+
+export enum WindStrength {
+  none,
+  light,
+  medium,
+  heavy,
+}
+
+export class Report {
+  temperature: {
+    climate: Climate;
+    exact: number;
+  };
+  clouds: number;
+  rain: {
+    type: RainType;
+    time: RainTime;
+    strength: RainStrength;
+  };
+  wind: WindStrength;
+  eventActive: boolean;
+
+  constructor(data: Report) {
+    for (let key in data) {
+      this[key] = data[key];
+    }
+  }
+}
+
+// TODO change other structures to match report
