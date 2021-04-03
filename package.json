@@ -28,7 +28,7 @@
     "pull-to-live": "pull.bat",
     "push": "git add . && git commit && git push",
     "build": "tsc",
-    "run-dev": "nodemon ."
+    "run": "nodemon ."
   },
   "repository": {
     "type": "git",
