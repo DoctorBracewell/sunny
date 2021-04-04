@@ -30,7 +30,7 @@ export function tagDrBracewell() {
 }
 
 // Send an error embed in the supplied channel that tags developer
-export async function errorTagBrace(error: Error, channel: TextChannel) {#
+export async function errorTagBrace(error: Error, channel: TextChannel) {
   console.error(error);
   const errorEmbed = new SunnyEmbed()
     .setDefaultFooter()
