@@ -1,10 +1,12 @@
 import { Client, TextChannel } from "discord.js";
 import * as schedule from "node-schedule";
 import { DEVELOPMENT, MANSION, OPEN_EMOJI, TEST } from "../constants";
-import weather from "../controllers/weather";
+import { newReport } from "../controllers/weather";
 import { randomFromArray } from "drbracewell-random-tools";
 import { statuses } from "../json/config.json";
 import { initOpenScene } from "../commands/openscene";
+import { error } from "console";
+import { errorTagBrace } from "../utils";
 
 export function main(client: Client) {
   // Show startup message
@@ -33,7 +35,7 @@ export function main(client: Client) {
 
   // Schedule weather and set up status changes
   schedule.scheduleJob({ hour: 9, minute: 0 }, () => {
-    weather(client, true);
+    newReport(client, true);
     client.user.setActivity(randomFromArray(statuses));
   });
 }

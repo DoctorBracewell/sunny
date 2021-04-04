@@ -36,8 +36,9 @@ export async function errorTagBrace(error: Error, channel: TextChannel) {
     .setDefaultFooter()
     .setColor("#ff0033")
     .setTitle("Oops, something went wrong!")
-    .setDescription(`Perhaps ${tagDrBracewell()} could fix it?`)
+    .setDescription(`Perhaps Brace could fix it?`)
     .addField("Error", error.message);
 
   await channel.send(errorEmbed);
+  await channel.send(tagDrBracewell());
 }

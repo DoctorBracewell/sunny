@@ -49,17 +49,17 @@ const FORMATTING_DATA = {
   ],
 };
 
-function formatPrecipitation({ type, time, strength }: Report["rain"]) {
+function formatPrecipitation({ sort, time, strength }: Report["rain"]) {
   // Specific lines
-  if (type === RainType.none)
+  if (sort === RainType.none)
     return "It doesn't look like there'll be any rain today!";
-  if (type === RainType.storm)
+  if (sort === RainType.storm)
     return "⛈️  Uh oh! Looks like there's going to be a **storm** today! Viewers are advised to stay inside just in case!  ⛈️";
-  if (type === RainType.blizzard)
+  if (sort === RainType.blizzard)
     return "🌨️  Uh oh! Looks like there's going to be a **blizzard** today! Viewers are advised to stay inside just in case!  🌨️";
-  if (type === RainType.animals)
+  if (sort === RainType.animals)
     return "🐈 Well would you look at that! Apparently it's going to actually be raining **actual cats and dogs** today! Don't fret about these animals though, they're going to bounce right off the ground when they land and walk away right as rain! (gettit? rain??) 🐕";
-  if (type === RainType.ice_cream)
+  if (sort === RainType.ice_cream)
     return "🍨 What's this?! Folks, I'm just getting news that it's going to snow *ice cream* today! Well that certainly sounds like a treat, I hope no one's lactose intolerant! 🍨";
 
   // Rain string builder, produces outcome "There will be [light/medium/heavy] [showers/rain] <of snow> [occasionally/often/constantly] throughout the day"
@@ -69,7 +69,7 @@ function formatPrecipitation({ type, time, strength }: Report["rain"]) {
   } ${
     FORMATTING_DATA.rains[strength - 1].word
   } ${
-    type === RainType.snow ? "of snow " : ""
+    sort === RainType.snow ? "of snow " : ""
   } ${
     FORMATTING_DATA.rains[time - 1].time
   } throughout the day.`;
@@ -79,7 +79,7 @@ function formatWind(wind: number) {
   if (wind === WindStrength.none)
     return "It doesn't look like there'll be any wind today!";
 
-  return `There will be ${FORMATTING_DATA.winds[wind - 1]} today`;
+  return `There will be ${FORMATTING_DATA.winds[wind - 1]} today.`;
 }
 
 export function formatReport({
