@@ -1,6 +1,7 @@
 import { readdirSync } from "fs";
 import { Client, Message, Command } from "discord.js";
 import { SunnyEmbed, capitaliseFirstLetter } from "../utils";
+import { Argument } from "../controllers/arguments";
 
 export const command: Command = {
   name: "help",
@@ -10,10 +11,10 @@ export const command: Command = {
   execute(client: Client, message: Message, args: string[]) {
     class CommandTag {
       name: string;
-      args: string;
+      args: Argument[];
       description: string;
 
-      constructor(name: string, args: string, description: string) {
+      constructor(name: string, args: Argument[], description: string) {
         this.name = name;
         this.args = args;
         this.description = description;
@@ -23,8 +24,17 @@ export const command: Command = {
         let formattedTag = "- **$";
 
         formattedTag += `${this.name}** `;
+        //prettier-ignore
         formattedTag += `${
-          this.args.length !== 0 ? `[${this.args.split(" ").join("/")}]` : ""
+          this.args.length !== 0
+            ? this.args
+                .map((element) =>
+                  `[${element.options
+                    .map((option) => option.example)
+                    .join("/")}]`
+                )
+                .join(" ")
+            : ""
         } **➤** `;
         formattedTag += `${this.description}`;
 

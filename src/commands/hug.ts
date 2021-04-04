@@ -26,7 +26,7 @@ export const command: Command = {
       message.channel.send(randomFromArray(hugs));
       number--;
 
-      if (number >= 0) clearInterval(interval);
+      if (number === 0) clearInterval(interval);
     }, randomBetween(1000, 3000));
   },
 };
