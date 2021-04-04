@@ -1,12 +1,12 @@
-import { Client, Message, TextChannel } from "discord.js";
+import { Client, Message, TextChannel, Command } from "discord.js";
 import { sceneMap } from "../controllers/openscenes";
 
-export const command = {
+export const command: Command = {
   name: "closescene",
   category: "roleplay",
   description:
     "Mark a currently open channel as closed by removing the emoji in the name.",
-  arguments: "",
+  arguments: [],
   execute(client: Client, message: Message, args: string[]) {
     const channel = message.channel as TextChannel;
     if (!sceneMap.has(channel.id)) {

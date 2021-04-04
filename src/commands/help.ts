@@ -1,12 +1,12 @@
 import { readdirSync } from "fs";
-import { Client, Command, Message } from "discord.js";
+import { Client, Message, Command } from "discord.js";
 import { SunnyEmbed, capitaliseFirstLetter } from "../utils";
 
-export const command = {
+export const command: Command = {
   name: "help",
   category: "utility",
   description: "Provides this message.",
-  arguments: "",
+  arguments: [],
   execute(client: Client, message: Message, args: string[]) {
     class CommandTag {
       name: string;

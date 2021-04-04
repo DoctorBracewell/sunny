@@ -5,7 +5,7 @@ export const command = {
   name: "trigger",
   category: "utility",
   description: "For mod use only, triggers certain custom-coded events.",
-  arguments: "<varied>",
+  arguments: [],
   async execute(client: Client, message: Message, args: string[]) {
     if (
       !message.guild

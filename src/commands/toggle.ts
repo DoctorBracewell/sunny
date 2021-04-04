@@ -1,4 +1,4 @@
-import { Client, Message } from "discord.js";
+import { Client, Message, Command } from "discord.js";
 import * as mongoose from "mongoose";
 import { MONGO_PASSWORD } from "../constants";
 
@@ -12,19 +12,23 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 
-export const command = {
+export const command: Command = {
   name: "toggle",
   category: "utility",
   description: "Opt in or out of recieving certain events.",
-  arguments: "reactions",
+  arguments: [
+    {
+      options: [
+        {
+          regex: /reactions/,
+          example: "reactions",
+        },
+      ],
+      default: "reactions",
+      required: true,
+    },
+  ],
   async execute(client: Client, message: Message, args: string[]) {
-    if (args === [] || !["reactions"].includes(args[0])) {
-      message.channel.send(
-        "Please provide an event to toggle on or off! Use `$help` to see avaliable toggles."
-      );
-      return;
-    }
-
     const event = args[0];
 
     const UserModel = mongoose.model(event, UserSchema);

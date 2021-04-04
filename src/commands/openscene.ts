@@ -1,4 +1,4 @@
-import { Client, Message, TextChannel } from "discord.js";
+import { Client, Message, TextChannel, Command } from "discord.js";
 import { OPEN_EMOJI } from "../constants";
 import { OpenScene, sceneMap } from "../controllers/openscenes";
 
@@ -18,12 +18,12 @@ export function initOpenScene(
     });
 }
 
-export const command = {
+export const command: Command = {
   name: "openscene",
   category: "roleplay",
   description:
     "Mark a channel as an open scene by placing a unique emoji in the name.",
-  arguments: "",
+  arguments: [],
   execute(client: Client, message: Message, args: string[]) {
     if (sceneMap.has(message.channel.id)) {
       message.reply("That channel is already marked as an open scene!");

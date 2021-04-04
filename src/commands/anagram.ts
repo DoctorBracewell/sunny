@@ -1,12 +1,31 @@
 import * as randomWord from "random-words";
-import { Client, Message } from "discord.js";
+import { Client, Message, Command } from "discord.js";
 import { SunnyEmbed } from "../utils";
 
-export const command = {
+export const command: Command = {
   name: "anagram",
   category: "fun",
   description: "Starts a anagram contest.",
-  arguments: "easy hard extreme",
+  arguments: [
+    {
+      options: [
+        {
+          regex: /easy/,
+          example: "easy",
+        },
+        {
+          regex: /hard/,
+          example: "hard",
+        },
+        {
+          regex: /extreme/,
+          example: "extreme",
+        },
+      ],
+      default: "easy",
+      required: true,
+    },
+  ],
   execute(client: Client, message: Message, args: string[]) {
     const difficultyChars = {
       easy: 1,
@@ -15,14 +34,6 @@ export const command = {
     };
 
     let word = String(randomWord());
-
-    if (args === [] || !["easy", "hard", "extreme"].includes(args[0])) {
-      message.channel.send(
-        "Please provide a valid anagram type; `easy` or `hard` or `extreme`."
-      );
-      return;
-    }
-
     while (word.length <= difficultyChars[args[0]]) {
       word = String(randomWord());
     }

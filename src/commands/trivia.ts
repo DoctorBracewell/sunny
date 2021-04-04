@@ -7,14 +7,27 @@ export const command = {
   name: "trivia",
   category: "fun",
   description: "Starts a trivia contest.",
-  arguments: "easy medium hard",
+  arguments: [
+    {
+      options: [
+        {
+          regex: /easy/,
+          example: "easy",
+        },
+        {
+          regex: /medium/,
+          example: "medium",
+        },
+        {
+          regex: /hard/,
+          example: "hard",
+        },
+      ],
+      default: "easy",
+      required: true,
+    },
+  ],
   execute(client: Client, message: Message, args: string[]) {
-    if (args.length === 0) {
-      message.channel.send(
-        "Please provide a difficulty, `easy`, `medium` or `hard`."
-      );
-      return;
-    }
     // Setup
     let questionNumber = 0,
       contestants = [],
@@ -26,13 +39,6 @@ export const command = {
       leaderboard = [],
       list = [],
       questionsArray;
-
-    if (!["easy", "medium", "hard"].includes(args[0])) {
-      message.channel.send(
-        "That is not a valid contest difficulty, use `easy`, `medium` or `hard`."
-      );
-      return;
-    }
 
     let url =
       "https://opentdb.com/api.php?amount=10&type=multiple&encode=url3986";

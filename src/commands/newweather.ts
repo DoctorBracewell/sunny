@@ -1,12 +1,12 @@
-import { Client, Message } from "discord.js";
+import { Client, Message, Command } from "discord.js";
 import { newReport } from "../controllers/weather";
 import { MOD_ROLE } from "../constants";
 
-export const command = {
+export const command: Command = {
   name: "newweather",
   category: "utility",
   description: "For mod use only, creates a new weather report in the channel.",
-  arguments: "",
+  arguments: [],
   execute(client: Client, message: Message, args: string[]) {
     if (
       !message.guild
