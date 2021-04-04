@@ -21,23 +21,23 @@ function generateRain({ temperature, clouds }: Report, rain: Report["rain"]) {
   if (Math.random() >= 0.8) return rain;
 
   // Otherwise there is rain
-  rain.type = RainType.rain;
+  rain.sort = RainType.rain;
 
   // Special cases (rare light showers, storm, snow or ice cream)
 
   // Snow
-  if (temperature.climate === Climate.freezing) rain.type = RainType.snow;
+  if (temperature.climate === Climate.freezing) rain.sort = RainType.snow;
   // Storm/Blizzard
   if (clouds > 7 && Math.random() > 0.3)
-    rain.type =
+    rain.sort =
       temperature.climate === Climate.freezing
         ? RainType.blizzard
         : RainType.storm;
   // Animals
-  if (Math.random() > 0.99) rain.type = RainType.animals;
+  if (Math.random() > 0.99) rain.sort = RainType.animals;
   // Ice Cream
   if (Math.random() > 0.8 && temperature.climate === Climate.freezing)
-    rain.type = RainType.ice_cream;
+    rain.sort = RainType.ice_cream;
 
   // Return straight away with light showers
   if (clouds === 4 && Math.random() > 0.5) {
@@ -123,7 +123,7 @@ export const defaultReport = new Report({
   },
   clouds: 1,
   rain: {
-    type: RainType.none,
+    sort: RainType.none,
     time: RainTime.none,
     strength: RainStrength.none,
   },
@@ -143,7 +143,7 @@ export function generateNewReport(
   );
   report.clouds = generateClouds(report.temperature.climate);
   report.rain = generateRain(report, defaultReport.rain);
-  report.wind = generateWind(report.rain.type);
+  report.wind = generateWind(report.rain.sort);
   report.eventActive = Math.random() >= 0.95;
 
   return report;
