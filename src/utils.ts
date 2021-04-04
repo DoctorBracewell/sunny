@@ -30,14 +30,15 @@ export function tagDrBracewell() {
 }
 
 // Send an error embed in the supplied channel that tags developer
-export async function errorTagBrace(error: Error, channel: TextChannel) {#
+export async function errorTagBrace(error: Error, channel: TextChannel) {
   console.error(error);
   const errorEmbed = new SunnyEmbed()
     .setDefaultFooter()
     .setColor("#ff0033")
     .setTitle("Oops, something went wrong!")
-    .setDescription(`Perhaps ${tagDrBracewell()} could fix it?`)
+    .setDescription(`Perhaps Brace could fix it?`)
     .addField("Error", error.message);
 
   await channel.send(errorEmbed);
+  await channel.send(tagDrBracewell());
 }

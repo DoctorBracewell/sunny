@@ -1,5 +1,5 @@
 import { Client, Message } from "discord.js";
-import weather from "../controllers/weather";
+import { newReport } from "../controllers/weather";
 import { MOD_ROLE } from "../constants";
 
 export const command = {
@@ -15,7 +15,7 @@ export const command = {
     )
       return;
 
-    weather(client, false);
+    newReport(client, false);
 
     message.delete();
   },

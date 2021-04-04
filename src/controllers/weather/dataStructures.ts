@@ -8,7 +8,7 @@ export interface ReportModel extends Document {
   };
   clouds: number;
   rain: {
-    type: RainType;
+    sort: RainType;
     time: RainTime;
     strength: RainStrength;
   };
@@ -25,7 +25,7 @@ export const reportSchema = new Schema(
     },
     clouds: Number,
     rain: {
-      type: Number,
+      sort: Number,
       time: Number,
       strength: Number,
     },
@@ -82,7 +82,7 @@ export class Report {
   };
   clouds: number;
   rain: {
-    type: RainType;
+    sort: RainType;
     time: RainTime;
     strength: RainStrength;
   };
@@ -95,5 +95,3 @@ export class Report {
     }
   }
 }
-
-// TODO change other structures to match report
