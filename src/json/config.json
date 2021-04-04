@@ -1,84 +1,59 @@
 {
-    "prefix": "$",
-    "servers": {
-        "mansion": {
-            "id": "612778224887267342",
-            "channels": {
-                "bot": "635114930978422794",
-                "rules": "612813188077191199",
-                "greeting": "709757993067085906"
-            }
-        },
-        "programming": {
-            "id": "737069553619828778",
-            "channels": {
-                "bot": "737337344578945064"
-            }
-        },
-        "test": {
-            "id": "574977350240829460",
-            "channels": {
-                "bot": "788528441590415430"
-            }
-        }
+  "prefix": "$",
+  "servers": {
+    "mansion": {
+      "id": "612778224887267342",
+      "channels": {
+        "bot": "635114930978422794",
+        "rules": "612813188077191199",
+        "greeting": "709757993067085906"
+      }
     },
-    "hugs": [
-        "(づ￣ ³￣)づ",
-        "⊂(´･◡･⊂ )",
-        "（っ♡∀♡）っ",
-        "⊂(◉‿◉)つ",
-        "(ﾉ◕ヮ◕)ﾉ*.✧",
-        "⊂((・▽・))⊃",
-        "⊂( ◜◒◝ )⊃",
-        "ლ(・ヮ・ლ)",
-        "(っಠ‿ಠ)っ",
-        "(.づσ▿σ)づ.",
-        "⊂(◉‿◉)つ",
-        "⊂(・ヮ・⊂)",
-        "（っ・∀・）っ",
-        "⊂(´・ω・｀⊂)",
-        "c⌒っ╹v╹ )っ"
-    ],
-    "colours": [
-        "RED",
-        "ORANGE",
-        "YELLOW",
-        "GREEN",
-        "BLUE",
-        "PURPLE",
-        "TEAL",
-        "PINK",
-        "TURQUOISE",
-        "BLACK",
-        "LIGHT GREEN",
-        "MAROON",
-        "GOLD",
-        "GREY",
-        "WHITE",
-        "LIGHT BLUE"
-    ],
-    "pronouns": [
-        "HE/HIM",
-        "SHE/HER",
-        "THEY/THEM",
-        "SIE/HIR",
-        "ALL PRONOUNS"
-    ],
-    "statuses": [
-        "I'm always watching!",
-        "Do you want a hug.",
-        "You will have a good day.",
-        "Death comes to us all.",
-        "Don't be scared of me! Be scared of what's behind you.",
-        "You cannot escape.",
-        "There's nothing to worry about. I made sure of that.",
-        "They know. Don't go home.",
-        "Soon.",
-        "No one will ever believe you.",
-        "Those are nice ribs.",
-        "You will unravel nicely when it is time.",
-        "g̸͎̘͍̰̗͑̃̄͆̆̍̓̕̚͝͝ô̶̧̨͈̣̫̯̯̤̝͇͒̅̓̏̈́̈́̄̒͠d̴̨̻̩̠͙̦̳̹̤̥̗͇̱̏͑̌̓͊̎̾̇̓͆͝͠ ̸̨̝̝̲̼͓̜̠̦̺͓̞͚̑̀̃̾͆̿̕͝h̴̘̘̰̠̲͖̅͆̔͗ͅa̷̡̢̱̻̤̳̟̳͔̟̼̦̓̀s̶̖̈́͘ ̶͓͖̮̩̹̫̞͚̙̱̞̣̪̜͇̾̉̓͒͝f̵̪̪̲͉̣̖̀́̊̀̾̐̽͊̉͂͗̽̇̇ǭ̶̧̬͎̥͓͚̤̥̼͈̦̒̈̾̍͆͝r̸̙̘͑̉͐̿͌͗̆̔̄̈́͊͐̔s̷̡̖̜̗̩̲̳͔̠͕̫͉͇͋͜a̸͎̜̲̜̹̫̰͍̦͇͈͊͆̅͐̓́͑͝k̴̬̱̏͌̀̀̾͆̐̉̓̍ḛ̶̛͓̖̪̘͙́̐͛̀͆̃̀̍̕ń̸̙̙͓̞̦͍̼͖̻͊̌͜ ̶̬͔͙̦͎̪̩̮͉̦̊̎͒͛ͅͅu̸̜̜͓̅̌̿́̈́̓͘͠s̴̢̡̖̬̞͎̗͓̰̙͓̪̫̣̀͋̓͌̾̔̌̂͊̐͘ͅ.",
-        "Today is going to happen. Are you?",
-        "Run."
-    ]
+    "programming": {
+      "id": "737069553619828778",
+      "channels": {
+        "bot": "737337344578945064"
+      }
+    },
+    "test": {
+      "id": "574977350240829460",
+      "channels": {
+        "bot": "788528441590415430"
+      }
+    }
+  },
+  "hugs": [
+    "(づ￣ ³￣)づ",
+    "⊂(´･◡･⊂ )",
+    "（っ♡∀♡）っ",
+    "⊂(◉‿◉)つ",
+    "(ﾉ◕ヮ◕)ﾉ*.✧",
+    "⊂((・▽・))⊃",
+    "⊂( ◜◒◝ )⊃",
+    "ლ(・ヮ・ლ)",
+    "(っಠ‿ಠ)っ",
+    "(.づσ▿σ)づ.",
+    "⊂(◉‿◉)つ",
+    "⊂(・ヮ・⊂)",
+    "（っ・∀・）っ",
+    "⊂(´・ω・｀⊂)",
+    "c⌒っ╹v╹ )っ"
+  ],
+  "statuses": [
+    "I'm always watching!",
+    "Do you want a hug.",
+    "You will have a good day.",
+    "Death comes to us all.",
+    "Don't be scared of me! Be scared of what's behind you.",
+    "You cannot escape.",
+    "There's nothing to worry about. I made sure of that.",
+    "They know. Don't go home.",
+    "Soon.",
+    "No one will ever believe you.",
+    "Those are nice ribs.",
+    "You will unravel nicely when it is time.",
+    "g̸͎̘͍̰̗͑̃̄͆̆̍̓̕̚͝͝ô̶̧̨͈̣̫̯̯̤̝͇͒̅̓̏̈́̈́̄̒͠d̴̨̻̩̠͙̦̳̹̤̥̗͇̱̏͑̌̓͊̎̾̇̓͆͝͠ ̸̨̝̝̲̼͓̜̠̦̺͓̞͚̑̀̃̾͆̿̕͝h̴̘̘̰̠̲͖̅͆̔͗ͅa̷̡̢̱̻̤̳̟̳͔̟̼̦̓̀s̶̖̈́͘ ̶͓͖̮̩̹̫̞͚̙̱̞̣̪̜͇̾̉̓͒͝f̵̪̪̲͉̣̖̀́̊̀̾̐̽͊̉͂͗̽̇̇ǭ̶̧̬͎̥͓͚̤̥̼͈̦̒̈̾̍͆͝r̸̙̘͑̉͐̿͌͗̆̔̄̈́͊͐̔s̷̡̖̜̗̩̲̳͔̠͕̫͉͇͋͜a̸͎̜̲̜̹̫̰͍̦͇͈͊͆̅͐̓́͑͝k̴̬̱̏͌̀̀̾͆̐̉̓̍ḛ̶̛͓̖̪̘͙́̐͛̀͆̃̀̍̕ń̸̙̙͓̞̦͍̼͖̻͊̌͜ ̶̬͔͙̦͎̪̩̮͉̦̊̎͒͛ͅͅu̸̜̜͓̅̌̿́̈́̓͘͠s̴̢̡̖̬̞͎̗͓̰̙͓̪̫̣̀͋̓͌̾̔̌̂͊̐͘ͅ.",
+    "Today is going to happen. Are you?",
+    "Run."
+  ]
 }

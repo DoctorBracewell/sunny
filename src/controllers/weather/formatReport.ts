@@ -1,200 +1,153 @@
-import { randomBetween } from "drbracewell-random-tools";
+import * as dateFormat from "dateformat";
+import { capitaliseFirstLetter, SunnyEmbed } from "../../utils";
+import { Climate, RainType, Report, WindStrength } from "./dataStructures";
 
-const enums = ["FREEZING", "COLD", "COOL", "WARM", "HOT", "BURNING"];
-
-export function generateWind(report) {
-  if (["blizzard", "storm"].includes(report.rain.rain)) {
-    return 4;
-  } else {
-    return randomBetween(1, 3);
-  }
-}
-
-export function generateRain(report) {
-  if (
-    ["BURNING", "HOT"].includes(report.word.text) ||
-    report.clouds <= 3 ||
-    Math.random() >= 0.8 ||
-    report.temp > 24
-  )
-    return { rain: "none", time: 0, strength: 0 };
-
-  let rain = { rain: "rain", time: 0, strength: 0 };
-
-  // light showers
-  if (report.clouds < 5) {
-    rain.time = 1;
-    rain.strength = 1;
-    return rain;
-  }
-
-  // storm
-  if (report.clouds > 7 && Math.random() >= 0.1) {
-    rain = {
-      rain: report.word.text === "FREEZING" ? "blizzard" : "storm",
-      time: 0,
-      strength: 0,
-    };
-    return rain;
-  }
-
-  // else decide time + strength
-  if (report.clouds >= 7) {
-    rain.time = randomBetween(3, 4);
-    rain.strength = randomBetween(2, 3);
-  } else {
-    rain.time = randomBetween(1, 3);
-    rain.strength = randomBetween(1, 2);
-  }
-
-  if (report.word.text === "FREEZING") {
-    rain.rain = "snow";
-  }
-
-  return rain;
-}
-
-export function generateClouds(word) {
-  switch (word) {
-    case enums[0]:
-      return randomBetween(1, 10);
-    case enums[1]:
-      return randomBetween(5, 10);
-    case enums[2]:
-      return randomBetween(3, 8);
-    case enums[3]:
-      return randomBetween(2, 5);
-    case enums[4]:
-      return randomBetween(0, 4);
-    case enums[5]:
-      return randomBetween(0, 1);
-  }
-}
-
-export function tempValue(temperature) {
-  const values = [
-    [-12, 0],
-    [1, 10],
-    [11, 20],
-    [21, 30],
-    [31, 40],
-    [41, 48],
-  ];
-
-  const number = randomBetween(...values[temperature]);
-
-  return {
-    word: {
-      text: enums[temperature],
-      num: temperature,
+const FORMATTING_DATA = {
+  climates: [
+    {
+      word: "freezing",
+      event: { name: "snowstorm", emoji: "❄️" },
     },
-    temp: number,
-  };
-}
+    {
+      word: "cold",
+      event: { name: "hailstorm", emoji: "🌨️" },
+    },
+    {
+      word: "cool",
+      event: { name: "hurricane", emoji: "🌪️" },
+    },
+    {
+      word: "warm",
+      event: { name: "lightning storm", emoji: "🌪️" },
+    },
+    {
+      word: "hot",
+      event: { name: "heatwave", emoji: "🌶️" },
+    },
+    {
+      word: "burning",
+      event: { name: "wildfire", emoji: "🔥" },
+    },
+  ],
+  winds: ["a light breeze", "strong winds", "powerful gales"],
+  rains: [
+    {
+      time: "occasionally",
+      strength: "light",
+      word: "showers",
+    },
+    {
+      time: "often",
+      strength: "medium",
+      word: "showers",
+    },
+    {
+      time: "constantly",
+      strength: "heavy",
+      word: "rain",
+    },
+  ],
+};
 
-export function generateTemp(previous, changeType: boolean) {
-  if ([0, 5].includes(previous)) {
-    const change = randomBetween(1, 5);
-
-    if (change <= 2 || !changeType) {
-      // temp stays same
-      return tempValue(previous);
-    } else {
-      // temp changes +1 or -1
-      return previous === 0 ? tempValue(previous + 1) : tempValue(previous - 1);
-    }
-  } else {
-    const change = randomBetween(1, 5);
-
-    if (change === 1) {
-      return tempValue(previous - 1);
-    } else if (change === 2) {
-      return tempValue(previous + 1);
-    } else {
-      return tempValue(previous);
-    }
-  }
-}
-
-export function generateEvent(report) {
-  switch (report.word.text) {
-    case "FREEZING":
-      return "snowstorm";
-    case "COLD":
-      return "hailstorm";
-    case "COOL":
-      return "meteor shower";
-    case "WARM":
-      return "lightning storm";
-    case "HOT":
-      return "heatwave";
-    case "BURNING":
-      return "wildfire";
-  }
-}
-
-export function stringPrecipitation(report) {
-  if (report.rain.rain === "none") {
+function formatPrecipitation({ type, time, strength }: Report["rain"]) {
+  // Specific lines
+  if (type === RainType.none)
     return "It doesn't look like there'll be any rain today!";
-  } else {
-    let finished = "There will be ";
+  if (type === RainType.storm)
+    return "⛈️  Uh oh! Looks like there's going to be a **storm** today! Viewers are advised to stay inside just in case!  ⛈️";
+  if (type === RainType.blizzard)
+    return "🌨️  Uh oh! Looks like there's going to be a **blizzard** today! Viewers are advised to stay inside just in case!  🌨️";
+  if (type === RainType.animals)
+    return "🐈 Well would you look at that! Apparently it's going to actually be raining **actual cats and dogs** today! Don't fret about these animals though, they're going to bounce right off the ground when they land and walk away right as rain! (gettit? rain??) 🐕";
+  if (type === RainType.ice_cream)
+    return "🍨 What's this?! Folks, I'm just getting news that it's going to snow *ice cream* today! Well that certainly sounds like a treat, I hope no one's lactose intolerant! 🍨";
 
-    finished +=
-      report.rain.strength === 1
-        ? "light"
-        : report.rain.strength === 2
-        ? "medium"
-        : "heavy";
-
-    finished +=
-      report.rain.strength === 3 && report.word.text !== "FREEZING"
-        ? " rain "
-        : " showers ";
-
-    finished += report.rain.rain === "snow" ? "of snow " : "";
-
-    finished +=
-      report.rain.time === 1
-        ? "rarely"
-        : report.rain.time === 2
-        ? "occasionally"
-        : report.rain.time === 3
-        ? "often"
-        : "constantly";
-
-    finished += " throughout the day.";
-
-    return finished;
-  }
+  // Rain string builder, produces outcome "There will be [light/medium/heavy] [showers/rain] <of snow> [occasionally/often/constantly] throughout the day"
+  // prettier-ignore
+  return `There will be ${
+    FORMATTING_DATA.rains[strength - 1].strength
+  } ${
+    FORMATTING_DATA.rains[strength - 1].word
+  } ${
+    type === RainType.snow ? "of snow " : ""
+  } ${
+    FORMATTING_DATA.rains[time - 1].time
+  } throughout the day.`;
 }
 
-export function stringStorm(report) {
-  let finished = "⛈️  Uh oh! Looks like there's going to be a **";
-
-  finished += report.rain.rain;
-
-  finished += "** today! Viewers are advised to stay inside just in case!  ⛈️";
-
-  return finished;
-}
-
-export function stringWind(report) {
-  if (report.wind === 1) {
+function formatWind(wind: number) {
+  if (wind === WindStrength.none)
     return "It doesn't look like there'll be any wind today!";
-  } else {
-    let finished = "There will be ";
-    finished += report.wind === 2 ? "a " : "";
 
-    finished +=
-      report.wind === 2 ? "light" : report.wind === 3 ? "strong" : "powerful";
+  return `There will be ${FORMATTING_DATA.winds[wind - 1]} today`;
+}
 
-    finished += " ";
+export function formatReport({
+  temperature: { exact, climate },
+  clouds,
+  rain,
+  wind,
+}: Report) {
+  // Embed Setup
+  const DATE = new Date();
 
-    finished +=
-      report.wind === 2 ? "breeze" : report.wind === 3 ? "winds" : "gales";
+  // Create embed
+  return (
+    new SunnyEmbed()
+      .setDefaultFooter()
+      .setAuthor("Ace Mansion Weather")
+      .setTitle(dateFormat(DATE, "dddd, mmmm dS, yyyy"))
+      .setDescription(
+        `Welcome to the Ace Mansion Weather Report! The date is ${dateFormat(
+          DATE,
+          "dddd, mmmm dS, yyyy"
+        )}, and as usual it's me, Sunny, to give you the low down on how the weather is today!\n`
+      )
 
-    finished += " today.";
+      // Colour
+      .setColor(
+        ["#8ed2e1", "#3e87cc", "#66cc3e", "#d6d451", "#c3621d", "#e02e2e"][
+          climate
+        ]
+      )
 
-    return finished;
-  }
+      // Temperature
+      .addField(
+        "Temperature:",
+
+        FORMATTING_DATA.climates[climate].word.toUpperCase() +
+          "\n" +
+          exact +
+          "°C | " +
+          (Math.round(exact * (9 / 5)) + 32) +
+          "°F"
+      )
+      // Clouds
+      .addField("Cloud Cover:", clouds + (clouds === 0 ? "%" : "0%"))
+      // Precipitation
+      .addField("Precipitation", formatPrecipitation(rain))
+      // Wind
+      .addField("Wind:", formatWind(wind))
+      // Goodbye
+      .addField(
+        "\u200b",
+        "That's all for today's Ace Mansion Weather report, I'll see you tomorrow at 9am sharp for the next one!"
+      )
+  );
+}
+
+export function formatEvent(climate: Climate) {
+  const EMOJI = FORMATTING_DATA.climates[climate].event.emoji;
+  const NAME = FORMATTING_DATA.climates[climate].event.name;
+
+  return new SunnyEmbed()
+    .setDefaultFooter()
+    .setColor("#ff0505")
+    .setAuthor("Ace Mansion Weather")
+    .setTitle(`${EMOJI} ${capitaliseFirstLetter(NAME)} Warning ${EMOJI}`)
+    .setDescription(`Hi folks, we're just getting news of a **${NAME}** today!`)
+    .addField(
+      "\u200b",
+      "This event can be very dangerous, so make sure you stay indoors as much as you can and keep you and your friends and family safe!"
+    );
 }
