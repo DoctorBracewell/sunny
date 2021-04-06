@@ -78,7 +78,6 @@ export async function main(client: Client, message: Message) {
 
   // Command handler
   if (message.content.startsWith(PREFIX)) {
-    // TODO: Change command modules structure to ES6
     // Split message by whitespace
     const messageSections = message.content
       .toLowerCase()
@@ -94,7 +93,7 @@ export async function main(client: Client, message: Message) {
     // Parse arguments
     let args;
     try {
-      args = parseArguments(cmd.data.arguments, messageSections);
+      args = parseArguments(cmd.data.args, messageSections);
     } catch (error) {
       return channel.send(error.message);
     }
@@ -106,7 +105,7 @@ export async function main(client: Client, message: Message) {
       );
 
     try {
-      cmd.execute({ client: discordClient, message: message, args: args });
+      cmd.execute({ client, message, args });
     } catch (error) {
       console.error(error);
       message.reply("There was an error trying to execute that command!");

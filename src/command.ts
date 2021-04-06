@@ -11,10 +11,10 @@ export interface CommandData {
   name: string;
   category: string;
   description: string;
-  arguments: Argument[];
+  args: Argument[];
 }
 
 export interface Command {
   data: CommandData;
-  execute(args: CommandArguments): void;
+  execute(args: CommandArguments);
 }

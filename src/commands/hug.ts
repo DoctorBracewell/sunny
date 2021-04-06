@@ -1,12 +1,12 @@
 import { randomFromArray, randomBetween } from "drbracewell-random-tools";
 import { hugs } from "../json/config.json";
-import { Client, Message, Command } from "discord.js";
+import { CommandArguments, CommandData } from "../command";
 
-export const command: Command = {
+export const data: CommandData = {
   name: "hug",
   category: "fun",
   description: "Hug(s)!",
-  arguments: [
+  args: [
     {
       options: [
         {
@@ -18,15 +18,15 @@ export const command: Command = {
       required: false,
     },
   ],
-  execute(client: Client, message: Message, args: string[]) {
-    // Number default
-    let number = parseInt(args[0]);
-
-    let interval = setInterval(() => {
-      message.channel.send(randomFromArray(hugs));
-      number--;
-
-      if (number === 0) clearInterval(interval);
-    }, randomBetween(1000, 3000));
-  },
 };
+
+export function execute({ message, args }: CommandArguments) {
+  let number = parseInt(args[0]);
+
+  let interval = setInterval(() => {
+    message.channel.send(randomFromArray(hugs));
+    number--;
+
+    if (number === 0) clearInterval(interval);
+  }, randomBetween(1000, 3000));
+}
