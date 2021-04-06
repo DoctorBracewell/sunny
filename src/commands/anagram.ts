@@ -1,8 +1,9 @@
 import * as randomWord from "random-words";
-import { Client, Message, Command } from "discord.js";
+import { Client, Message } from "discord.js";
 import { SunnyEmbed } from "../utils";
+import { CommandData } from "../command";
 
-export const command: Command = {
+export const data: CommandData = {
   name: "anagram",
   category: "fun",
   description: "Starts a anagram contest.",
@@ -25,8 +26,10 @@ export const command: Command = {
       default: "easy",
       required: true,
     },
-  ],
-  execute(client: Client, message: Message, args: string[]) {
+  ],  
+}
+
+export async function execute(client: Client, message: Message, args: string[]) {
     const difficultyChars = {
       easy: 1,
       hard: 6,

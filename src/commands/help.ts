@@ -21,6 +21,7 @@ export const command: Command = {
       }
 
       formatTag() {
+        // Get data from command module and format to add to embed.
         let formattedTag = "- **$";
 
         formattedTag += `${this.name}** `;
@@ -41,6 +42,7 @@ export const command: Command = {
         return formattedTag;
       }
     }
+
     class HelpSection {
       name: string;
       commands: CommandTag[];
@@ -51,6 +53,7 @@ export const command: Command = {
       }
 
       appendToEmbed() {
+        // Add to embed
         help.addField(
           `__${capitaliseFirstLetter(this.name)}__`,
           `\n${this.commands
@@ -59,6 +62,7 @@ export const command: Command = {
         );
       }
 
+      // Add new command
       addCommand(command) {
         this.commands.push(
           new CommandTag(command.name, command.arguments, command.description)
@@ -66,6 +70,7 @@ export const command: Command = {
       }
     }
 
+    // Initialise embed
     const help = new SunnyEmbed()
       .setDefaultProperties()
       .setTitle("**Hello!**")
@@ -73,26 +78,30 @@ export const command: Command = {
         "I am Sunny, a custom discord bot coded by DrBracewell. Check below for some commands you can use."
       );
 
+    // Read command modules
     const files = readdirSync(__dirname);
     let helpSections: Map<string, HelpSection> = new Map();
 
     files
       .filter((file) => file.endsWith(".js"))
       .forEach((file) => {
+        // Require module
         const command = require(`./${file}`).command;
 
-        if (helpSections.has(command.category)) {
-          helpSections.get(command.category).addCommand(command);
-        } else {
+        // Create category if it doesnt exist
+        if (!helpSections.has(command.category))
           helpSections.set(command.category, new HelpSection(command.category));
-          helpSections.get(command.category).addCommand(command);
-        }
+
+        // Add command to section.
+        helpSections.get(command.category).addCommand(command);
       });
 
+    // Spread help sections and sort, then add to embed.
     new Map([...helpSections].sort()).forEach((section) => {
       section.appendToEmbed();
     });
 
+    // Add final field and send embed
     help.addField(
       "\u200B",
       "You can also just try chatting to me normally, though sometimes I won't have the best responses, sorry!\n"

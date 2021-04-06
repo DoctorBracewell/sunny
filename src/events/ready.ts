@@ -5,8 +5,6 @@ import { newReport } from "../controllers/weather";
 import { randomFromArray } from "drbracewell-random-tools";
 import { statuses } from "../json/config.json";
 import { initOpenScene } from "../commands/openscene";
-import { error } from "console";
-import { errorTagBrace } from "../utils";
 
 export function main(client: Client) {
   // Show startup message

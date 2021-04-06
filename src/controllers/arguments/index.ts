@@ -21,7 +21,7 @@ export function parseArguments(
     )
       argsStringArray[argsSchemas.indexOf(argSchema)] = argSchema.default;
 
-    // Extracted string from message to match
+    // Extract string from message to match
     const argString = argsStringArray[argsSchemas.indexOf(argSchema)];
 
     // If it doesnt match, throw error to be caught in command handler

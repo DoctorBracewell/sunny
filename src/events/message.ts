@@ -11,6 +11,7 @@ import { get as getEmojiName } from "emoji-name-map";
 import { random as getRandomEmoji } from "emoji-random";
 import { model } from "mongoose";
 import { parseArguments } from "../controllers/arguments";
+import { commandsCollection } from "..";
 
 const UserModel = model("reactions", UserSchema);
 
@@ -85,16 +86,15 @@ export async function main(client: Client, message: Message) {
       .split(/ +/);
 
     // Remove command word from messageSections
-    const commandString = messageSections.shift().toLowerCase();
+    const commandString = messageSections.shift();
 
     // Import command
-    const cmd = client.commands.get(commandString);
+    const cmd = commandsCollection.get(commandString);
 
     // Parse arguments
     let args;
-
     try {
-      args = parseArguments(cmd.arguments, messageSections);
+      args = parseArguments(cmd.data.arguments, messageSections);
     } catch (error) {
       return channel.send(error.message);
     }
@@ -106,7 +106,7 @@ export async function main(client: Client, message: Message) {
       );
 
     try {
-      cmd.execute(client, message, args);
+      cmd.execute({ client: discordClient, message: message, args: args });
     } catch (error) {
       console.error(error);
       message.reply("There was an error trying to execute that command!");
