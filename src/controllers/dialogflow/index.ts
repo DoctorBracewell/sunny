@@ -36,7 +36,6 @@ export async function main(message: Message) {
   try {
     intentResponse = (await sessionClient.detectIntent(request))[0];
 
-    // TODO maybe change to command function?
     if (intentResponse.queryResult.action === "hug") {
       fufilNeeded = false;
 
