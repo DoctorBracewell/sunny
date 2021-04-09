@@ -1,6 +1,8 @@
+// Imports
+import { hugs } from "@config";
+
+// Node Modules
 import { randomFromArray, randomBetween } from "drbracewell-random-tools";
-import { hugs } from "../json/config.json";
-import { CommandArguments, CommandData } from "../command";
 
 export const data: CommandData = {
   name: "hug",
@@ -20,7 +22,7 @@ export const data: CommandData = {
   ],
 };
 
-export function execute({ message, args }: CommandArguments) {
+export function execute({ message, args }: CommandParameters) {
   let number = parseInt(args[0]);
 
   let interval = setInterval(() => {

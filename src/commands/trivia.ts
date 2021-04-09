@@ -1,8 +1,9 @@
+// Imports
+import { SunnyEmbed } from "utils";
+
+// Node Modules
 import { randomFromArray } from "drbracewell-random-tools";
 import fetch from "node-fetch";
-import { Client, Message } from "discord.js";
-import { SunnyEmbed } from "../utils";
-import { CommandArguments, CommandData } from "../command";
 
 export const data: CommandData = {
   name: "trivia",
@@ -30,7 +31,7 @@ export const data: CommandData = {
   ],
 };
 
-export function execute({ message, args }: CommandArguments) {
+export function execute({ message, args }: CommandParameters) {
   // Setup
   let questionNumber = 0,
     contestants = [],

@@ -1,8 +1,10 @@
+// Imports
+import { DEVELOPMENT, MANSION, TEST } from "@constants";
+import { SunnyEmbed } from "utils";
+
+// Node Modules
 import fetch from "node-fetch";
 import { MessageAttachment } from "discord.js";
-import { DEVELOPMENT, MANSION, TEST } from "../constants";
-import { SunnyEmbed } from "../utils";
-import { CommandArguments, CommandData } from "../command";
 
 export const data: CommandData = {
   name: "profile",
@@ -16,7 +18,7 @@ export const data: CommandData = {
           example: "list",
         },
         {
-          regex: /w+/,
+          regex: /\w+/,
           example: "<name>",
         },
       ],
@@ -26,7 +28,7 @@ export const data: CommandData = {
   ],
 };
 
-export function execute({ message, args }: CommandArguments) {
+export function execute({ message, args }: CommandParameters) {
   if (message.guild.id !== (DEVELOPMENT ? TEST.id : MANSION.id)) return;
 
   function characters(res) {

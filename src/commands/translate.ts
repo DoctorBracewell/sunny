@@ -1,7 +1,9 @@
+// Imports
+import { SunnyEmbed, capitaliseFirstLetter } from "utils";
+
+// Node Modules
 import { v2 as GoogleTranslate } from "@google-cloud/translate";
-import { SunnyEmbed, capitaliseFirstLetter } from "../utils";
-import { CommandArguments, CommandData } from "../command";
-const ISO6391 = require("iso-639-1");
+import ISO6391 from "iso-639-1";
 
 export const data: CommandData = {
   name: "translate",
@@ -31,7 +33,7 @@ export const data: CommandData = {
   ],
 };
 
-export async function execute({ message, args }: CommandArguments) {
+export async function execute({ message, args }: CommandParameters) {
   const translate = new GoogleTranslate.Translate(),
     language = ISO6391.getCode(args[0]),
     phrase = message.content.split(" ").slice(2).join(" ");

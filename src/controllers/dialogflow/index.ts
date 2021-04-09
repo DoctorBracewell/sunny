@@ -1,12 +1,10 @@
+// Imports
+import { execute as sendHug } from "@commands/hug";
+import { gcp_id } from "@json/tokens.json";
+
 // Node Modules
 import { SessionsClient } from "@google-cloud/dialogflow";
 import { randomBetween } from "drbracewell-random-tools";
-import { execute as sendHug } from "../../commands/hug";
-
-// JSON Data
-import { gcp_id } from "../../json/tokens.json";
-
-// Types
 import { Message } from "discord.js";
 
 // Main function

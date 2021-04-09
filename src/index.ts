@@ -1,10 +1,11 @@
 // Imports
-import { discord } from "./json/tokens.json";
+import { discord } from "@json/tokens.json";
+
+// Node Modules
+import { Client, Collection } from "discord.js";
 import { readdir } from "fs";
-import { Command } from "./command";
 
 // Discord.js Setup
-import { Client, Collection } from "discord.js";
 const discordClient = new Client();
 
 // Attach events

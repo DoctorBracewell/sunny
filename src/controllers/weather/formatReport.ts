@@ -1,6 +1,14 @@
+// Imports
+import { capitaliseFirstLetter, SunnyEmbed } from "utils";
+import {
+  Climate,
+  RainType,
+  Report,
+  WindStrength,
+} from "@controllers/weather/dataStructures";
+
+// Node Modules
 import * as dateFormat from "dateformat";
-import { capitaliseFirstLetter, SunnyEmbed } from "../../utils";
-import { Climate, RainType, Report, WindStrength } from "./dataStructures";
 
 const FORMATTING_DATA = {
   climates: [

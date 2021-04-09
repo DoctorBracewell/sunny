@@ -1,7 +1,8 @@
+// Imports
+import { SunnyEmbed, capitaliseFirstLetter } from "utils";
+
+// Node Modules
 import { readdir } from "fs";
-import { SunnyEmbed, capitaliseFirstLetter } from "../utils";
-import { Argument } from "../controllers/arguments";
-import { Command, CommandArguments, CommandData } from "../command";
 
 export const data: CommandData = {
   name: "help",
@@ -11,10 +12,10 @@ export const data: CommandData = {
 };
 class CommandTag {
   name: string;
-  args: Argument[];
+  args: CommandArgument[];
   description: string;
 
-  constructor(name: string, args: Argument[], description: string) {
+  constructor(name: string, args: CommandArgument[], description: string) {
     this.name = name;
     this.args = args;
     this.description = description;
@@ -66,7 +67,7 @@ class HelpSection {
   }
 }
 
-export function execute({ message }: CommandArguments) {
+export function execute({ message }: CommandParameters) {
   // Initialise embed
   let help = new SunnyEmbed()
     .setDefaultProperties()

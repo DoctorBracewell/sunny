@@ -1,5 +1,5 @@
-import * as config from "./json/config.json";
-import { mongo } from "./json/tokens.json";
+import * as config from "@config";
+import { mongo } from "@json/tokens.json";
 
 export const MONGO_PASSWORD = mongo;
 export const PREFIX = config.prefix;

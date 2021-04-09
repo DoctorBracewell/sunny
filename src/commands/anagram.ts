@@ -1,6 +1,8 @@
+// Imports
+import { SunnyEmbed } from "utils";
+
+// Node Modules
 import * as randomWord from "random-words";
-import { SunnyEmbed } from "../utils";
-import { CommandArguments, CommandData } from "../command";
 
 export const data: CommandData = {
   name: "anagram",
@@ -28,7 +30,7 @@ export const data: CommandData = {
   ],
 };
 
-export async function execute({ message, args }: CommandArguments) {
+export async function execute({ message, args }: CommandParameters) {
   const difficultyChars = {
     easy: 1,
     hard: 6,

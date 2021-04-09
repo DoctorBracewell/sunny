@@ -1,16 +1,16 @@
-import * as mongoose from "mongoose";
-import { CommandArguments, CommandData } from "../command";
-import { MONGO_PASSWORD } from "../constants";
+// Imports
+import { MONGO_PASSWORD } from "@constants";
+import { UserModel } from "@controllers/reactions";
 
+// Node Modules
+import { createConnection } from "mongoose";
+
+// Mongoose Setup
 const mongoURI = `mongodb+srv://drbracewell:${MONGO_PASSWORD}@sunnyprofiles.uovhf.mongodb.net/opt_ins?retryWrites=true&w=majority`;
-export const UserSchema = new mongoose.Schema({
-  id: String,
+createConnection(mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
-
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
-
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error:"));
 
 export const data: CommandData = {
   name: "toggle",
@@ -30,10 +30,8 @@ export const data: CommandData = {
   ],
 };
 
-export async function execute({ message, args }: CommandArguments) {
+export async function execute({ message, args }: CommandParameters) {
   const event = args[0];
-
-  const UserModel = mongoose.model(event, UserSchema);
 
   if (await UserModel.findOne({ id: message.member.id }).exec()) {
     await UserModel.deleteOne({ id: message.member.id });

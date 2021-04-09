@@ -1,15 +1,6 @@
-export interface Argument {
-  options: Array<{
-    regex: RegExp;
-    example: string;
-  }>;
-  default: string;
-  required: boolean;
-}
-
 // Takes array of arguments (defined in command file)
 export function parseArguments(
-  argsSchemas: Argument[],
+  argsSchemas: CommandArgument[],
   argsStringArray: string[]
 ) {
   // Loop through each argument
