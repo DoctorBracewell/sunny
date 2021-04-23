@@ -9,3 +9,4 @@ export const OPEN_EMOJI = "⭕";
 export const TEST = config.servers.test;
 export const DEVELOPMENT = process.env.NODE_ENV === "development";
 export const MOD_ROLE = "MOD";
+export const FILE_EXTENSION = DEVELOPMENT ? ".ts" : ".js";

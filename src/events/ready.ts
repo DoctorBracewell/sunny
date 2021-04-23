@@ -8,6 +8,7 @@ import { newReport } from "@controllers/weather";
 import { Client, TextChannel } from "discord.js";
 import * as schedule from "node-schedule";
 import { randomFromArray } from "drbracewell-random-tools";
+import { BotError } from "@controllers/errors";
 
 export async function main(client: Client) {
   // Show startup message and set activity
@@ -28,7 +29,13 @@ export async function main(client: Client) {
   guild.channels.cache
     .filter((channel) => channel.name.includes(`${OPEN_EMOJI}-`))
     .forEach((channel) => {
-      initOpenScene(channel as TextChannel, client);
+      initOpenScene(channel as TextChannel, client).catch((error) => {
+        const channel = client.channels.cache.get(
+          DEVELOPMENT ? TEST.channels.bot : MANSION.channels.bot
+        ) as TextChannel;
+
+        new BotError(error).send(channel);
+      });
     });
 
   // Schedule weather and set up status changes

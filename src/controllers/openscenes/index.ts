@@ -13,12 +13,9 @@ export class OpenScene {
   }
 
   resetChannel() {
-    this.channel
-      .setName(this.oldName)
-      .then((newChannel) => {
-        sceneMap.delete(newChannel.id);
-      })
-      .catch((e) => e);
+    this.channel.setName(this.oldName).then((newChannel) => {
+      sceneMap.delete(newChannel.id);
+    });
   }
 
   initChannelTimeout(client: Client): void {

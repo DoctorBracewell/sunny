@@ -15,5 +15,8 @@
       "@controllers/*": ["controllers/*"]
     }
   },
-  "display": "Recommended"
+  "display": "Recommended",
+  "ts-node": {
+    "files": true
+  }
 }

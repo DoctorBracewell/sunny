@@ -1,40 +1,32 @@
 // Imports
-import { MANSION } from "@constants";
+import { mongooseConnection, userSchemaStructure } from "@commands/toggle";
+import { DEVELOPMENT, MANSION, TEST } from "@constants";
 
 // Node Modules
 import { Message } from "discord.js";
 import { randomBetween } from "drbracewell-random-tools";
-import { get as getEmojiName } from "emoji-name-map";
-import { random as getRandomEmoji } from "emoji-random";
-import { model, Schema } from "mongoose";
+import * as getRandomEmoji from "get-random-emoji";
+import { Schema } from "mongoose";
 
-export const UserModel = model(
+// Initialise model and export for use in toggle command module
+export const ReactionsModel = mongooseConnection.model(
   "reactions",
-  new Schema({
-    id: String,
-  })
+  new Schema(userSchemaStructure, { collection: "reactions" })
 );
 
 // Random reactions (as voted by the server (opt in tho (im not that evil (or am I???)))
 export async function randomReactions(message: Message) {
-  if (randomBetween(0, 100) === 0) {
-    // 1/100 chance
-    if (
-      message.guild.id === MANSION.id &&
-      (await UserModel.findOne({ id: message.member.id }))
-    ) {
-      // React with emojis
-      let number = randomBetween(3, 10);
+  //if (randomBetween(0, 100) !== 0) return;
+  if (message.guild.id !== (DEVELOPMENT ? TEST.id : MANSION.id)) return;
 
-      for (let i = 0; i < number; i++) {
-        // Choose emoji
-        let emoji = getEmojiName(getRandomEmoji());
+  const UserDocument = await ReactionsModel.findOne({ id: message.member.id });
+  if (!UserDocument) return;
 
-        // React with emoji (with catch cause discord doesnt have all)
-        message.react(emoji).catch((error) => {
-          if (error) console.error(error);
-        });
-      }
-    }
+  // React with emojis#
+  let number = randomBetween(3, 10);
+
+  for (let i = 0; i < number; i++) {
+    // React with emoji (with catch because discord doesnt have all)
+    message.react(getRandomEmoji()).catch((error) => {});
   }
 }

@@ -6,10 +6,15 @@ import { CTCODING, MANSION, PREFIX, DEVELOPMENT } from "@constants";
 import { servers } from "@config";
 import { main as runDialogflowRequest } from "@controllers/dialogflow";
 import { Roll } from "@controllers/dice";
-import { errorTagBrace } from "utils";
 
 // Node modules
 import { Client, Message, TextChannel } from "discord.js";
+import {
+  BotError,
+  errorConvert,
+  ErrorTypes,
+  UserError,
+} from "@controllers/errors";
 
 export async function main(client: Client, message: Message) {
   const channel = message.channel as TextChannel;
@@ -69,22 +74,25 @@ export async function main(client: Client, message: Message) {
     // Parse arguments
     let args;
     try {
-      args = parseArguments(cmd.data.args, messageSections);
+      args = await parseArguments(cmd.data.args, messageSections);
     } catch (error) {
-      return channel.send(error.message);
+      return errorConvert(error).send(channel);
     }
 
     // 404 command not found
     if (!cmd)
-      return channel.send(
-        "Invalid Command: That command does not exist. Use `$help` to see all available commands."
+      message.channel.send(
+        new UserError(
+          ErrorTypes.InvalidCommand,
+          "Use `$help$ to see all available commands."
+        ).message
       );
 
     // Execute command
     try {
-      cmd.execute({ client, message, args });
+      await cmd.execute({ client, message, args });
     } catch (error) {
-      errorTagBrace(error, channel);
+      errorConvert(error).send(channel);
     }
 
     return;
@@ -92,5 +100,10 @@ export async function main(client: Client, message: Message) {
 
   // Dialogflow and final check for coding server
   if (channel.id === CTCODING.channels.bot) return;
-  runDialogflowRequest(message);
+
+  try {
+    runDialogflowRequest(message);
+  } catch (error) {
+    new BotError(error).send(channel);
+  }
 }

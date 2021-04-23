@@ -5,7 +5,7 @@ import { DEVELOPMENT, MANSION, MONGO_PASSWORD, TEST } from "../../constants";
 import { defaultReport, generateNewReport } from "./generator";
 import { formatEvent, formatReport } from "./formatReport";
 import { TextChannel, Client } from "discord.js";
-import { errorTagBrace } from "../../utils";
+import { BotError } from "@controllers/errors";
 
 // Database connection
 const mongoURI = `mongodb+srv://drbracewell:${MONGO_PASSWORD}@sunnyprofiles.uovhf.mongodb.net/weather?retryWrites=true&w=majority`;
@@ -56,7 +56,8 @@ export class WeatherReport {
         this.current = defaultReport;
         this.saveReport();
         // Send error message and default report
-        await errorTagBrace(error, this.channel);
+        await new BotError(error).send(this.channel);
+
         await this.channel.send(
           "In the meantime, enjoy this completely fabricated report that I've randomly made up!"
         );
@@ -102,6 +103,6 @@ export async function newReport(client: Client, canChangeClimate: boolean) {
   try {
     new WeatherReport(channel, canChangeClimate);
   } catch (error) {
-    await errorTagBrace(error, channel);
+    await new BotError(error).send(channel);
   }
 }

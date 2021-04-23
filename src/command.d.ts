@@ -22,5 +22,5 @@ interface CommandData {
 
 interface Command {
   data: CommandData;
-  execute(args: CommandParameters);
+  execute(args: CommandParameters): Promise<any>;
 }

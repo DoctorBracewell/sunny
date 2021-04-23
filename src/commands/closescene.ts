@@ -12,7 +12,7 @@ export const data: CommandData = {
   args: [],
 };
 
-export function execute({ message }: CommandParameters) {
+export async function execute({ message }: CommandParameters) {
   const channel = message.channel as TextChannel;
   if (!sceneMap.has(channel.id)) {
     message.reply("That channel is not marked as an open scene!");

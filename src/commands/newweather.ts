@@ -9,7 +9,7 @@ export const data: CommandData = {
   args: [],
 };
 
-export function execute({ client, message }: CommandParameters) {
+export async function execute({ client, message }: CommandParameters) {
   if (
     !message.guild
       .member(message.author)

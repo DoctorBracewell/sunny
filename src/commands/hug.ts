@@ -22,7 +22,7 @@ export const data: CommandData = {
   ],
 };
 
-export function execute({ message, args }: CommandParameters) {
+export async function execute({ message, args }: CommandParameters) {
   let number = parseInt(args[0]);
 
   let interval = setInterval(() => {

@@ -1,5 +1,7 @@
+import { ErrorTypes, UserError } from "@controllers/errors";
+
 // Takes array of arguments (defined in command file)
-export function parseArguments(
+export async function parseArguments(
   argsSchemas: CommandArgument[],
   argsStringArray: string[]
 ) {
@@ -21,8 +23,9 @@ export function parseArguments(
         (argString ? argString : "").match(element.regex)
       )
     )
-      throw new Error(
-        `Invalid Argument: \`${argString}\` does not match expected value of: \`[${argSchema.options
+      throw new UserError(
+        ErrorTypes.InvalidArguments,
+        `\`${argString}\` does not match expected value of: \`[${argSchema.options
           .map((option) => option.example)
           .join("/")}]\``
       );

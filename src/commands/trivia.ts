@@ -31,7 +31,7 @@ export const data: CommandData = {
   ],
 };
 
-export function execute({ message, args }: CommandParameters) {
+export async function execute({ message, args }: CommandParameters) {
   // Setup
   let questionNumber = 0,
     contestants = [],
@@ -79,13 +79,6 @@ export function execute({ message, args }: CommandParameters) {
         obj.answers = obj.incorrect_answers;
         delete obj.incorrect_answers;
       }
-    })
-    .catch(function (error) {
-      console.log(error);
-      message.channel.send(
-        "Something went when trying to recieve the questions from the API, please try again."
-      );
-      return;
     });
 
   // incorrect/correct answers
@@ -252,52 +245,44 @@ export function execute({ message, args }: CommandParameters) {
   }
 
   // Message Detection
-  try {
-    message.channel
-      .send(
-        `${message.author} has started a __${
-          args[0] === "general" ? `${args[1].toUpperCase()} ` : ""
-        }${args[0].toUpperCase()} TRIVIA CONTEST__! React to this message to join in. The contest will start in 20 seconds, or disband if there are not enough players.`
-      )
-      .then((message) => {
-        message.react("❓");
-        let filter = (reaction, user) =>
-          reaction.emoji.name === "❓" && !user.bot;
-        // Player collection
-        message
-          .awaitReactions(filter, { time: 20000 })
-          .then((collected) => {
-            if (collected.get("❓").count >= 3) {
-              // Set up contestants + leaderboard and start 1st question
-              contestants = collected.get("❓").users.cache.keyArray();
-              contestants.shift();
-              message.channel.send(
-                `Contest has started! The contestants are: <@${contestants.join(
-                  ">, <@"
-                )}>!`
-              );
-              message.channel.send(
-                `**Please do not react to questions until the '15 seconds' message has been sent!**`
-              );
-              for (let i = 0; i < contestants.length; i++) {
-                leaderboard.push({
-                  id: contestants[i],
-                  score: 0,
-                  correct: false,
-                });
-              }
-              questions();
-            } else {
-              // Not enough players
-              message.channel.send(
-                `The contest has been disbanded because there weren't enough players!`
-              );
-            }
-          })
-          .catch(console.error);
+  message.channel
+    .send(
+      `${message.author} has started a __${
+        args[0] === "general" ? `${args[1].toUpperCase()} ` : ""
+      }${args[0].toUpperCase()} TRIVIA CONTEST__! React to this message to join in. The contest will start in 20 seconds, or disband if there are not enough players.`
+    )
+    .then((message) => {
+      message.react("❓");
+      let filter = (reaction, user) =>
+        reaction.emoji.name === "❓" && !user.bot;
+      // Player collection
+      message.awaitReactions(filter, { time: 20000 }).then((collected) => {
+        if (collected.get("❓").count >= 3) {
+          // Set up contestants + leaderboard and start 1st question
+          contestants = collected.get("❓").users.cache.keyArray();
+          contestants.shift();
+          message.channel.send(
+            `Contest has started! The contestants are: <@${contestants.join(
+              ">, <@"
+            )}>!`
+          );
+          message.channel.send(
+            `**Please do not react to questions until the '15 seconds' message has been sent!**`
+          );
+          for (let i = 0; i < contestants.length; i++) {
+            leaderboard.push({
+              id: contestants[i],
+              score: 0,
+              correct: false,
+            });
+          }
+          questions();
+        } else {
+          // Not enough players
+          message.channel.send(
+            `The contest has been disbanded because there weren't enough players!`
+          );
+        }
       });
-  } catch (err) {
-    console.log(err);
-    message.channel.send(`Something went wrong, please try again!`);
-  }
+    });
 }
