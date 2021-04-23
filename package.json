@@ -40,11 +40,5 @@
     "bugs": {
         "url": "https://github.com/DoctorBracewell/sunny/issues"
     },
-    "homepage": "https://github.com/DoctorBracewell/sunny#readme",
-    "nodemonConfig": {
-        "ignore": [
-            "build/**/*.json",
-            "src/**/*"
-        ]
-    }
+    "homepage": "https://github.com/DoctorBracewell/sunny#readme"
 }
