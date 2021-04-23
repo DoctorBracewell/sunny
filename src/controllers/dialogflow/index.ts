@@ -1,12 +1,10 @@
+// Imports
+import { execute as sendHug } from "@commands/hug";
+import { gcp_id } from "@json/tokens.json";
+
 // Node Modules
 import { SessionsClient } from "@google-cloud/dialogflow";
 import { randomBetween } from "drbracewell-random-tools";
-import { execute as sendHug } from "../../commands/hug";
-
-// JSON Data
-import { gcp_id } from "../../json/tokens.json";
-
-// Types
 import { Message } from "discord.js";
 
 // Main function
@@ -33,26 +31,22 @@ export async function main(message: Message) {
   let intentResponse;
   let fufilNeeded = true;
 
-  try {
-    intentResponse = (await sessionClient.detectIntent(request))[0];
+  intentResponse = (await sessionClient.detectIntent(request))[0];
 
-    if (intentResponse.queryResult.action === "hug") {
-      fufilNeeded = false;
+  if (intentResponse.queryResult.action === "hug") {
+    fufilNeeded = false;
 
-      let fields = intentResponse.queryResult.parameters.fields;
-      let hugNumber: number =
-        fields.hug_number.kind == "numberValue"
-          ? fields.hug_number.numberValue > 20
-            ? 20
-            : fields.hug_number.numberValue
-          : 1;
+    let fields = intentResponse.queryResult.parameters.fields;
+    let hugNumber: number =
+      fields.hug_number.kind == "numberValue"
+        ? fields.hug_number.numberValue > 20
+          ? 20
+          : fields.hug_number.numberValue
+        : 1;
 
-      sendHug({ client: null, message, args: [hugNumber.toString()] });
-    }
-
-    if (fufilNeeded)
-      message.channel.send(intentResponse.queryResult.fulfillmentText);
-  } catch (error) {
-    console.log(error);
+    sendHug({ client: null, message, args: [hugNumber.toString()] });
   }
+
+  if (fufilNeeded)
+    message.channel.send(intentResponse.queryResult.fulfillmentText);
 }

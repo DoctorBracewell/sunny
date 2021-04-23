@@ -1,15 +1,8 @@
-export interface Argument {
-  options: Array<{
-    regex: RegExp;
-    example: string;
-  }>;
-  default: string;
-  required: boolean;
-}
+import { ErrorTypes, UserError } from "@controllers/errors";
 
 // Takes array of arguments (defined in command file)
-export function parseArguments(
-  argsSchemas: Argument[],
+export async function parseArguments(
+  argsSchemas: CommandArgument[],
   argsStringArray: string[]
 ) {
   // Loop through each argument
@@ -30,8 +23,9 @@ export function parseArguments(
         (argString ? argString : "").match(element.regex)
       )
     )
-      throw new Error(
-        `Invalid Argument: \`${argString}\` does not match expected value of: \`[${argSchema.options
+      throw new UserError(
+        ErrorTypes.InvalidArguments,
+        `\`${argString}\` does not match expected value of: \`[${argSchema.options
           .map((option) => option.example)
           .join("/")}]\``
       );

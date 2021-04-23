@@ -1,6 +1,6 @@
-import { newReport } from "../controllers/weather";
-import { MOD_ROLE } from "../constants";
-import { CommandArguments, CommandData } from "../command";
+// Imports
+import { newReport } from "@controllers/weather";
+import { MOD_ROLE } from "@constants";
 
 export const data: CommandData = {
   name: "newweather",
@@ -9,7 +9,7 @@ export const data: CommandData = {
   args: [],
 };
 
-export function execute({ client, message }: CommandArguments) {
+export async function execute({ client, message }: CommandParameters) {
   if (
     !message.guild
       .member(message.author)

@@ -1,6 +1,8 @@
+// Imports
+import { sceneMap } from "@controllers/openscenes";
+
+// Node Modules
 import { TextChannel } from "discord.js";
-import { CommandArguments, CommandData } from "../command";
-import { sceneMap } from "../controllers/openscenes";
 
 export const data: CommandData = {
   name: "closescene",
@@ -10,7 +12,7 @@ export const data: CommandData = {
   args: [],
 };
 
-export function execute({ message }: CommandArguments) {
+export async function execute({ message }: CommandParameters) {
   const channel = message.channel as TextChannel;
   if (!sceneMap.has(channel.id)) {
     message.reply("That channel is not marked as an open scene!");

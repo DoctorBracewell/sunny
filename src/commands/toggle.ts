@@ -1,16 +1,16 @@
-import * as mongoose from "mongoose";
-import { CommandArguments, CommandData } from "../command";
-import { MONGO_PASSWORD } from "../constants";
+// Imports
+import { MONGO_PASSWORD } from "@constants";
+import { ReactionsModel } from "@controllers/reactions";
 
+// Node Modules
+import { createConnection } from "mongoose";
+
+// Mongoose Setup
 const mongoURI = `mongodb+srv://drbracewell:${MONGO_PASSWORD}@sunnyprofiles.uovhf.mongodb.net/opt_ins?retryWrites=true&w=majority`;
-export const UserSchema = new mongoose.Schema({
-  id: String,
+export const mongooseConnection = createConnection(mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
-
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
-
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error:"));
 
 export const data: CommandData = {
   name: "toggle",
@@ -30,11 +30,22 @@ export const data: CommandData = {
   ],
 };
 
-export async function execute({ message, args }: CommandArguments) {
+// User schema structure for use in controller modules to make mongoose models
+export const userSchemaStructure = {
+  id: String,
+};
+
+// Create object to event models to use dynamically in execute functin
+const eventModels = {
+  reactions: ReactionsModel,
+};
+
+export async function execute({ message, args }: CommandParameters) {
+  // Retrieve model for event
   const event = args[0];
+  const UserModel = mongooseConnection.model(event, eventModels[event]);
 
-  const UserModel = mongoose.model(event, UserSchema);
-
+  // Toggle opt-in
   if (await UserModel.findOne({ id: message.member.id }).exec()) {
     await UserModel.deleteOne({ id: message.member.id });
     message.reply(`Successfully opted **out** of ${event}!`);

@@ -1,4 +1,4 @@
-import { randomBetween } from "drbracewell-random-tools";
+// Imports
 import {
   Climate,
   RainStrength,
@@ -6,7 +6,10 @@ import {
   RainType,
   Report,
   WindStrength,
-} from "./dataStructures";
+} from "@controllers/weather/dataStructures";
+
+// Node Modules
+import { randomBetween } from "drbracewell-random-tools";
 
 function generateWind(rain: RainType): number {
   return rain === RainType.storm

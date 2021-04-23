@@ -1,7 +1,10 @@
+// Imports
+import { SunnyEmbed, capitaliseFirstLetter } from "utils";
+import * as languageArray from "@json/language-codes.json";
+
+// Node Modules
 import { v2 as GoogleTranslate } from "@google-cloud/translate";
-import { SunnyEmbed, capitaliseFirstLetter } from "../utils";
-import { CommandArguments, CommandData } from "../command";
-const ISO6391 = require("iso-639-1");
+import { ErrorTypes, UserError } from "@controllers/errors";
 
 export const data: CommandData = {
   name: "translate",
@@ -31,15 +34,21 @@ export const data: CommandData = {
   ],
 };
 
-export async function execute({ message, args }: CommandArguments) {
-  const translate = new GoogleTranslate.Translate(),
-    language = ISO6391.getCode(args[0]),
-    phrase = message.content.split(" ").slice(2).join(" ");
+export async function execute({ message, args }: CommandParameters) {
+  // Extract parts
+  const translate = new GoogleTranslate.Translate();
+  const phrase = message.content.split(" ").slice(2).join(" ");
 
-  if (!language)
-    return message.reply(
-      "oops, looks like something went wrong with the language you requested. Try again?"
-    );
+  // Check language provided for english name or native name
+  const language = languageArray.find(
+    ({ name, nativeName }) =>
+      args[0] ===
+      (name.toLowerCase() === args[0]
+        ? name.toLowerCase()
+        : nativeName.toLowerCase())
+  )?.code;
+
+  if (!language) throw new UserError(ErrorTypes.InvalidLanguage);
 
   let [translations] = await translate.translate(phrase, language);
   let translationsArray = Array.isArray(translations)

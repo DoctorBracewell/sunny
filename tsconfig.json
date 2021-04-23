@@ -4,7 +4,19 @@
     "target": "ES2015",
     "module": "CommonJS",
     "moduleResolution": "node",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "baseUrl": "src",
+    "paths": {
+      "utils": ["utils"],
+      "@constants": ["constants"],
+      "@config": ["json/config.json"],
+      "@json/*": ["json/*"],
+      "@commands/*": ["commands/*"],
+      "@controllers/*": ["controllers/*"]
+    }
   },
-  "display": "Recommended"
+  "display": "Recommended",
+  "ts-node": {
+    "files": true
+  }
 }

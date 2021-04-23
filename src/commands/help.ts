@@ -1,7 +1,9 @@
-import { readdir } from "fs";
-import { SunnyEmbed, capitaliseFirstLetter } from "../utils";
-import { Argument } from "../controllers/arguments";
-import { Command, CommandArguments, CommandData } from "../command";
+// Imports
+import { SunnyEmbed, capitaliseFirstLetter } from "utils";
+
+// Node Modules
+import { promises } from "fs";
+import { FILE_EXTENSION } from "@constants";
 
 export const data: CommandData = {
   name: "help",
@@ -11,10 +13,10 @@ export const data: CommandData = {
 };
 class CommandTag {
   name: string;
-  args: Argument[];
+  args: CommandArgument[];
   description: string;
 
-  constructor(name: string, args: Argument[], description: string) {
+  constructor(name: string, args: CommandArgument[], description: string) {
     this.name = name;
     this.args = args;
     this.description = description;
@@ -66,7 +68,7 @@ class HelpSection {
   }
 }
 
-export function execute({ message }: CommandArguments) {
+export async function execute({ message }: CommandParameters) {
   // Initialise embed
   let help = new SunnyEmbed()
     .setDefaultProperties()
@@ -76,39 +78,38 @@ export function execute({ message }: CommandArguments) {
     );
 
   // Read command modules
-  readdir(__dirname, async (err, files) => {
-    if (err) return console.error(err);
+  const files = await promises.readdir(__dirname);
+  // Add file data from all command modules to map
+  let helpSections: Map<string, HelpSection> = new Map();
 
-    // Add file data from all command modules to map
-    let helpSections: Map<string, HelpSection> = new Map();
+  for await (const file of files.filter((file) =>
+    file.endsWith(FILE_EXTENSION)
+  )) {
+    // Require module
+    const commandModule: Command = await import(`./${file}`);
 
-    for await (const file of files.filter((file) => file.endsWith(".js"))) {
-      // Require module
-      import(`./${file}`).then((commandModule: Command) => {
-        // Create category if it doesnt exist
-        if (!helpSections.has(commandModule.data.category))
-          helpSections.set(
-            commandModule.data.category,
-            new HelpSection(commandModule.data.category)
-          );
+    // Create category if it doesnt exist
+    if (!helpSections.has(commandModule.data.category))
+      helpSections.set(
+        commandModule.data.category,
+        new HelpSection(commandModule.data.category)
+      );
 
-        // Add command data to section.
-        helpSections
-          .get(commandModule.data.category)
-          .addCommand(commandModule.data);
-      });
-    }
+    // Add command data to section.
+    helpSections
+      .get(commandModule.data.category)
+      .addCommand(commandModule.data);
+  }
 
-    // Spread help sections and sort, then add to embed.
-    new Map([...helpSections].sort()).forEach((section) => {
-      help = section.appendToEmbed(help);
-    });
-
-    // Add final field and send embed
-    help.addField(
-      "\u200B",
-      "You can also just try chatting to me normally, though sometimes I won't have the best responses, sorry!\n"
-    );
-    message.reply(help);
+  // Spread help sections and sort, then add to embed.
+  new Map([...helpSections].sort()).forEach((section) => {
+    help = section.appendToEmbed(help);
   });
+
+  // Add final field and send embed
+  help.addField(
+    "\u200B",
+    "You can also just try chatting to me normally, though sometimes I won't have the best responses, sorry!\n"
+  );
+  message.reply(help);
 }

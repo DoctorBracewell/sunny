@@ -1,5 +1,5 @@
-import { CommandArguments, CommandData } from "../command";
-import { MOD_ROLE } from "../constants";
+// Imports
+import { MOD_ROLE } from "@constants";
 
 export const data: CommandData = {
   name: "trigger",
@@ -8,7 +8,7 @@ export const data: CommandData = {
   args: [],
 };
 
-export async function execute({ message }: CommandArguments) {
+export async function execute({ message }: CommandParameters) {
   if (
     !message.guild
       .member(message.author)

@@ -1,8 +1,11 @@
+// Imports
+import { DEVELOPMENT, MANSION, TEST } from "@constants";
+import { SunnyEmbed } from "utils";
+
+// Node Modules
 import fetch from "node-fetch";
 import { MessageAttachment } from "discord.js";
-import { DEVELOPMENT, MANSION, TEST } from "../constants";
-import { SunnyEmbed } from "../utils";
-import { CommandArguments, CommandData } from "../command";
+import { ErrorTypes, UserError } from "@controllers/errors";
 
 export const data: CommandData = {
   name: "profile",
@@ -16,7 +19,7 @@ export const data: CommandData = {
           example: "list",
         },
         {
-          regex: /w+/,
+          regex: /\w+/,
           example: "<name>",
         },
       ],
@@ -26,7 +29,7 @@ export const data: CommandData = {
   ],
 };
 
-export function execute({ message, args }: CommandArguments) {
+export async function execute({ message, args }: CommandParameters) {
   if (message.guild.id !== (DEVELOPMENT ? TEST.id : MANSION.id)) return;
 
   function characters(res) {
@@ -46,17 +49,9 @@ export function execute({ message, args }: CommandArguments) {
 
   fetch(`https://sunny.drbracewell.co.uk/character?name=${character}`)
     .then((res) => {
-      if (res.ok) {
-        return res;
-      } else {
-        throw new Error(
-          res.status === 404
-            ? "Oops, I can't find that character in the database!"
-            : "Oops, something went wrong!"
-        );
-      }
+      if (res.ok) return res.json();
+      throw res;
     })
-    .then((res) => res.json())
     .then((res) => {
       if (character == "all") {
         message.channel.send("```\n" + characters(res) + "```");
@@ -88,8 +83,15 @@ export function execute({ message, args }: CommandArguments) {
 
       message.channel.send(profile).catch((error) => console.log(error));
     })
-    .catch((error) => {
-      message.reply(error.message);
-      console.log(error);
+    .catch((err) => {
+      // Throw user error if 404
+      if (err.status === 404)
+        throw new UserError(
+          ErrorTypes.InvalidArguments,
+          "That character does not exist in the database. Use `$profile list` to see all available characters."
+        );
+
+      // Else throw error with api response
+      throw new Error(err.statusText);
     });
 }
