@@ -16,15 +16,13 @@ export const ReactionsModel = mongooseConnection.model(
 
 // Random reactions (as voted by the server (opt in tho (im not that evil (or am I???)))
 export async function randomReactions(message: Message) {
-  //if (randomBetween(0, 100) !== 0) return;
+  if (randomBetween(0, 100) !== 0) return;
   if (message.guild.id !== (DEVELOPMENT ? TEST.id : MANSION.id)) return;
 
   const UserDocument = await ReactionsModel.findOne({ id: message.member.id });
   if (!UserDocument) return;
 
-  // React with emojis#
   let number = randomBetween(3, 10);
-
   for (let i = 0; i < number; i++) {
     // React with emoji (with catch because discord doesnt have all)
     message.react(getRandomEmoji()).catch((error) => {});
