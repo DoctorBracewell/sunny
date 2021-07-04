@@ -21,10 +21,9 @@ readdir(__dirname + "/events/", (err, files) => {
     .forEach(async (file) => {
       // Require file
       const event = await import(`${__dirname}/events/${file}`);
-
-      // Event name
       let eventName = file.split(".")[0];
 
+      // Attatch even to the bot
       discordClient.on(eventName, event.main.bind(null, discordClient));
     });
 });
