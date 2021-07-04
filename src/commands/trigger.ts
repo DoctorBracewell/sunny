@@ -16,6 +16,53 @@ export async function execute({ message }: CommandParameters) {
   )
     return message.reply("this trigger can only be run by a moderator!");
 
+  message.channel.send(`⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀
+  ⠀`);
+
   /* Add roles for everyone
       client.guilds.cache.get("612778224887267342").members.cache.forEach(async member => {
           if (member.roles.cache.find(role => role.name === "Blocked Channels")) return;

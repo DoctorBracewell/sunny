@@ -7,11 +7,6 @@ import { Client, GuildMember, TextChannel } from "discord.js";
 export function main(client: Client, member: GuildMember) {
   if (member.user.bot || member.guild.id !== MANSION.id) return;
 
-  // Add blocked channels
-  member.roles.add(
-    member.guild.roles.cache.find((role) => role.name == "Blocked Channels")
-  );
-
   // Send message
   const channel = client.guilds.cache
     .get(MANSION.id)

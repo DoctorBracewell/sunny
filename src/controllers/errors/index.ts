@@ -8,6 +8,7 @@ export enum ErrorTypes {
   InvalidCommand = "Invalid Command",
   InvalidArguments = "Invalid Argument",
   InvalidLanguage = "Invalid Language",
+  InvalidChannel = "Invalid Channel",
 }
 
 /**

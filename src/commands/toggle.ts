@@ -35,7 +35,7 @@ export const userSchemaStructure = {
   id: String,
 };
 
-// Create object to event models to use dynamically in execute functin
+// Create object to event models to use dynamically in execute function
 const eventModels = {
   reactions: ReactionsModel,
 };

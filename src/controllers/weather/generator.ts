@@ -11,6 +11,10 @@ import {
 // Node Modules
 import { randomBetween } from "drbracewell-random-tools";
 
+/**
+ * @param  {RainType} rain
+ * @returns number
+ */
 function generateWind(rain: RainType): number {
   return rain === RainType.storm
     ? WindStrength.heavy
@@ -20,8 +24,8 @@ function generateWind(rain: RainType): number {
 function generateRain({ temperature, clouds }: Report, rain: Report["rain"]) {
   // Return no rain if temp too hot or clouds too little (or 20% chance)
   if ([Climate.hot, Climate.burning].includes(temperature.climate)) return rain;
-  if (clouds <= 3) return rain;
   if (Math.random() >= 0.8) return rain;
+  if (clouds <= 3) return rain;
 
   // Otherwise there is rain
   rain.sort = RainType.rain;

@@ -1,5 +1,5 @@
 // Imports
-import { FILE_EXTENSION, MONGO_PASSWORD } from "@constants";
+import { FILE_EXTENSION } from "@constants";
 import { discord } from "@json/tokens.json";
 
 // Node Modules
