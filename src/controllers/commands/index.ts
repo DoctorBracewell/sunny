@@ -6,7 +6,7 @@ import {
   UserError,
 } from "@controllers/errors";
 import { Client, Message, TextChannel } from "discord.js";
-import { commandsCollection } from "index";
+import { commandsCollection } from "./../../index";
 import { parseArguments } from "./arguments";
 import { validChannel } from "./channels";
 
