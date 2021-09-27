@@ -1,8 +1,8 @@
 // Imports
 import { randomReactions } from "@controllers/reactions";
 import { CommandEvent } from "@controllers/commands";
-import { CTCODING, MANSION, PREFIX } from "@constants";
-import { main as runDialogflowRequest } from "@controllers/dialogflow";
+import { TEST, MANSION, PREFIX } from "@constants";
+import { OpenAiRequest } from "@controllers/openai";
 import { Roll } from "@controllers/dice";
 
 // Node modules
@@ -21,10 +21,11 @@ export async function main(client: Client, message: Message) {
     return new CommandEvent(client, message, channel);
 
   // Dialogflow and final check for coding server
-  if (channel.id !== MANSION.channels.bot) return;
+  if (![MANSION.channels.bot, TEST.channels.bot].includes(message.channel.id))
+    return;
 
   try {
-    runDialogflowRequest(message);
+    new OpenAiRequest(message);
   } catch (error) {
     new BotError(error).send(channel);
   }
