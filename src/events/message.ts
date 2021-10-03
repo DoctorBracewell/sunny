@@ -2,12 +2,14 @@
 import { randomReactions } from "@controllers/reactions";
 import { CommandEvent } from "@controllers/commands";
 import { TEST, MANSION, PREFIX } from "@constants";
-import { OpenAiRequest } from "@controllers/openai";
+import { OpenAiSession } from "@controllers/openai";
 import { Roll } from "@controllers/dice";
 
 // Node modules
 import { Client, Message, TextChannel } from "discord.js";
 import { BotError } from "@controllers/errors";
+
+const openAiSession = new OpenAiSession();
 
 export async function main(client: Client, message: Message) {
   if (message.author.bot) return;
@@ -25,7 +27,7 @@ export async function main(client: Client, message: Message) {
     return;
 
   try {
-    new OpenAiRequest(message);
+    openAiSession.recieveMessage(message);
   } catch (error) {
     new BotError(error).send(channel);
   }

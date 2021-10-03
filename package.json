@@ -1,6 +1,6 @@
 {
   "name": "sunny",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "Source code for custom discord.js bot Sunny.",
   "main": "build/index.js",
   "dependencies": {
