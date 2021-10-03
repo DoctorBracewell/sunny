@@ -70,7 +70,6 @@ class OpenAiStream {
     const responseText = this.response.data.choices[0].text;
     this.messageAccumulator++;
     this.convoAccumulator += `${responseText}\n`;
-    //this.channel.send(responseText);
-    console.log(this.convoAccumulator);
+    this.channel.send(responseText);
   }
 }
