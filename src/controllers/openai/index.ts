@@ -36,21 +36,26 @@ class OpenAiStream {
   channel: TextChannel;
   messageAccumulator: number;
   convoAccumulator: string;
+  responses: string[];
   response: Completion;
 
   constructor(channel: TextChannel, content: string) {
     this.channel = channel;
+    this.responses = [];
     this.resetConvo();
     this.sendMessage(content);
   }
 
   resetConvo() {
+    this.responses = [];
     this.messageAccumulator = 0;
     this.convoAccumulator = "";
   }
 
   async sendMessage(content: string) {
     if (this.messageAccumulator >= 5) this.resetConvo();
+    if (this.responses.length !== new Set(this.responses).size)
+      this.resetConvo();
 
     this.convoAccumulator += `Human: ${content}\nAI:`;
 
@@ -68,8 +73,13 @@ class OpenAiStream {
     });
 
     const responseText = this.response.data.choices[0].text;
+
     this.messageAccumulator++;
     this.convoAccumulator += `${responseText}\n`;
+
+    this.responses.push(content.trim(), responseText.trim());
+
+    console.log(this.convoAccumulator);
     this.channel.send(responseText);
   }
 }
