@@ -9,8 +9,6 @@
 
 > A malevolent god trapped within a discord.js bot.
 
-### 🏠 [Homepage](https://github.com/DoctorBracewell/sunny#readme)
-
 ## Install
 
 ```sh
