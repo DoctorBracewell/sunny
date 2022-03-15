@@ -8,7 +8,7 @@ import {
 } from "@controllers/weather/dataStructures";
 
 // Node Modules
-import * as dateFormat from "dateformat";
+import dateFormat from "dateformat";
 
 const FORMATTING_DATA = {
   climates: [

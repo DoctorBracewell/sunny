@@ -1,22 +1,25 @@
+import { BotError } from "@controllers/errors";
 // Imports
 import { openai } from "@json/tokens.json";
 
 // Node Modules
-import { Message, TextChannel } from "discord.js";
+import { DiscordAPIError, Message, TextChannel } from "discord.js";
 
-import OpenAI, { Completion } from "openai-api";
+import OpenAI from "openai-api";
 const session = new OpenAI(openai);
 
 export class OpenAiSession {
   streams: OpenAiStream[];
   session: OpenAI;
+  active: boolean;
 
   constructor() {
     this.session = new OpenAI(openai);
     this.streams = [];
+    this.active = false;
   }
 
-  recieveMessage(message: Message) {
+  async recieveMessage(message: Message) {
     const stream = this.streams.find(
       (stream) => stream.channel.id === message.channel.id
     );
@@ -27,59 +30,85 @@ export class OpenAiSession {
         new OpenAiStream(message.channel as TextChannel, message.content)
       );
 
+    if (this.active) return;
+
+    this.active = true;
     // Otherwise send message of stream associated with channel
-    stream.sendMessage(message.content);
+    await stream.sendMessage(message.content);
+
+    this.active = false;
   }
 }
 
 class OpenAiStream {
   channel: TextChannel;
-  messageAccumulator: number;
-  convoAccumulator: string;
-  responses: string[];
-  response: Completion;
+  conversation: ConversationStream;
 
   constructor(channel: TextChannel, content: string) {
     this.channel = channel;
-    this.responses = [];
-    this.resetConvo();
+    this.conversation = new ConversationStream(6);
+
     this.sendMessage(content);
   }
 
-  resetConvo() {
+  async sendMessage(content: string) {
+    if (content.length > 100)
+      return this.channel.send(
+        "(to keep brace's costs down, I'm not gonna reply to something that long. Try something shorter?)"
+      );
+
+    this.conversation.addChunk(content, false);
+
+    console.log(
+      "Sunny is a helpful chatbot\n\n" +
+        this.conversation.stringifiedResponses +
+        "\nSunny: "
+    );
+
+    try {
+      // OpenAI GTP-3 davinci engine options for a friendly chatbot:
+      const response = await session.complete({
+        engine: "davinci",
+        prompt:
+          "The following is a conversation with an AI called Sunny. Sunny is unhelpful, sarcastic, clever, and narcissistic.\n\n" +
+          this.conversation.stringifiedResponses +
+          "\nSunny: ",
+        maxTokens: 60,
+        temperature: 0.7,
+        topP: 1,
+        presencePenalty: 0.5,
+        frequencyPenalty: 0.5,
+        bestOf: 1,
+        stop: ["\n", "Human:", "Sunny:"],
+      });
+
+      const responseText = response.data.choices[0].text;
+      this.conversation.addChunk(responseText, true);
+      this.channel.send(responseText);
+    } catch (error) {
+      if (error instanceof DiscordAPIError) return;
+
+      return new BotError(error).send(this.channel);
+    }
+  }
+}
+
+class ConversationStream {
+  private responses: string[];
+
+  constructor(private maxLength: number) {
+    this.maxLength = maxLength;
     this.responses = [];
-    this.messageAccumulator = 0;
-    this.convoAccumulator = "";
   }
 
-  async sendMessage(content: string) {
-    if (this.messageAccumulator >= 5) this.resetConvo();
-    if (this.responses.length !== new Set(this.responses).size)
-      this.resetConvo();
+  addChunk(chunk: string, ai: boolean) {
+    if (this.responses.length >= this.maxLength) this.responses.shift();
+    if (this.responses.includes(chunk)) this.responses = [];
 
-    this.convoAccumulator += `Human: ${content}\nAI:`;
+    this.responses.push(`${ai ? "Sunny" : "Human"}: ${chunk.trim()}`);
+  }
 
-    this.response = await session.complete({
-      engine: "davinci",
-      prompt: this.convoAccumulator,
-      maxTokens: 50,
-      temperature: 0.6,
-      topP: 1,
-      presencePenalty: 0.6,
-      frequencyPenalty: 0,
-      bestOf: 1,
-      n: 1,
-      stop: ["\n", "Human:", "AI:"],
-    });
-
-    const responseText = this.response.data.choices[0].text;
-
-    this.messageAccumulator++;
-    this.convoAccumulator += `${responseText}\n`;
-
-    this.responses.push(content.trim(), responseText.trim());
-
-    console.log(this.convoAccumulator);
-    this.channel.send(responseText);
+  get stringifiedResponses() {
+    return this.responses.join("\n");
   }
 }

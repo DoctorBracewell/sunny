@@ -17,14 +17,6 @@ export async function main(client: Client) {
 
   const guild = await client.guilds.fetch(DEVELOPMENT ? TEST.id : MANSION.id);
 
-  // Fetch rule channel
-  if (!DEVELOPMENT) {
-    const rulesChannel = guild.channels.cache.get(
-      MANSION.channels.rules
-    ) as TextChannel;
-    rulesChannel.messages.fetch("709784389222924389");
-  }
-
   // Initialise open scenes
   guild.channels.cache
     .filter((channel) => channel.name.includes(`${OPEN_EMOJI}-`))
