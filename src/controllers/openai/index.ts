@@ -59,12 +59,6 @@ class OpenAiStream {
 
     this.conversation.addChunk(content, false);
 
-    console.log(
-      "Sunny is a helpful chatbot\n\n" +
-        this.conversation.stringifiedResponses +
-        "\nSunny: "
-    );
-
     try {
       // OpenAI GTP-3 davinci engine options for a friendly chatbot:
       const response = await session.complete({

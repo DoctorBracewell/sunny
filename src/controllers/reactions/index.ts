@@ -5,7 +5,7 @@ import { DEVELOPMENT, MANSION, TEST } from "@constants";
 // Node Modules
 import { Message } from "discord.js";
 import { randomBetween } from "drbracewell-random-tools";
-import * as getRandomEmoji from "get-random-emoji";
+import getRandomEmoji from "get-random-emoji";
 import { Schema } from "mongoose";
 
 // Initialise model and export for use in toggle command module

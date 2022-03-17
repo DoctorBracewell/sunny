@@ -99,6 +99,8 @@ export async function newReport(client: Client, canChangeClimate: boolean) {
       (channel) => channel.name === "weather"
     ) as TextChannel;
 
+  console.log(channel);
+
   // Try to generate weather
   try {
     new WeatherReport(channel, canChangeClimate);

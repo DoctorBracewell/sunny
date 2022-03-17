@@ -22,6 +22,8 @@ export function validChannel(message: Message, channel: TextChannel) {
       ).send(channel);
 
       return false;
+    } else {
+      return true;
     }
   }
 
