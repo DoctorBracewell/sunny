@@ -1,6 +1,6 @@
 import { BotError } from "@controllers/errors";
-// Imports
 import { openai } from "@json/tokens.json";
+import { PREFIX } from "@constants";
 
 // Node Modules
 import { DiscordAPIError, Message, TextChannel } from "discord.js";
@@ -52,6 +52,9 @@ class OpenAiStream {
   }
 
   async sendMessage(content: string) {
+    if (content.trim() === `${PREFIX}reset`)
+      this.conversation = new ConversationStream(6);
+
     if (content.length > 100)
       return this.channel.send(
         "(to keep brace's costs down, I'm not gonna reply to something that long. Try something shorter?)"
