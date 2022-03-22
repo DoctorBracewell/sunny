@@ -52,8 +52,8 @@ class OpenAiStream {
   }
 
   async sendMessage(content: string) {
-    if (content.trim() === `${PREFIX}reset`)
-      this.conversation = new ConversationStream(6);
+    if (content.trim() === "reset")
+      return (this.conversation = new ConversationStream(6));
 
     if (content.length > 100)
       return this.channel.send(
@@ -63,7 +63,7 @@ class OpenAiStream {
     this.conversation.addChunk(content, false);
 
     try {
-      // OpenAI GTP-3 davinci engine options for a friendly chatbot:
+      // OpenAI GTP-3 davinci engine options for an unfriendly chatbot:
       const response = await session.complete({
         engine: "davinci",
         prompt:
